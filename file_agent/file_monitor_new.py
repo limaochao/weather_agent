@@ -11,7 +11,6 @@
 import json
 import threading
 
-from common import gol
 from common.constant import const
 from conf.configs import config
 from file_agent.agent_push import AgentPush, push
@@ -19,8 +18,6 @@ from file_agent.myenum.file_attr_enum import FileAttr
 from file_agent.monitor.file_num_size import file_num_large_size
 from file_agent.monitor.is_created import on_created, is_created
 from file_agent.monitor.is_modify import on_modified, is_modify
-import schedule
-import time
 
 
 def task(file_conf):
@@ -71,7 +68,7 @@ def init_watchdog(attr_list, path, service_name):
     for attr in attr_list:
         if attr.get('key') == FileAttr.IS_CREATED.value:
             '''created'''
-            threading.Thread(target=on_created, args=(path, service_name),daemon=True).start()
+            threading.Thread(target=on_created, args=(path, service_name), daemon=True).start()
         elif attr.get('key') == FileAttr.IS_DELETED.value:
             '''deleted'''
             pass
@@ -80,7 +77,7 @@ def init_watchdog(attr_list, path, service_name):
             pass
         elif attr.get('key') == FileAttr.IS_MODIFIED.value:
             '''modified'''
-            threading.Thread(target=on_modified, args=(path, service_name)).start()
+            threading.Thread(target=on_modified, args=(path, service_name), daemon=True).start()
 
 
 def payload(file_conf, code):
@@ -122,12 +119,3 @@ def integration_result(result):
         if i == const.ERROR_CODE:
             return const.ERROR_CODE
     return const.SUCCESS_CODE
-
-
-if __name__ == '__main__':
-    gol.init()
-    # task(config.get('file'))
-
-    schedule.every(10).seconds.do(task, config.get('file')[0])
-    while True:
-        schedule.run_pending()

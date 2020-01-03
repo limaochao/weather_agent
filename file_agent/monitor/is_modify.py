@@ -32,10 +32,8 @@ def on_modified(path, service_name):
     observer = Observer()
     event_handler = OnModified("modified" + service_name)
     observer.schedule(event_handler, path, recursive=False)
-    observer.start()
     try:
-        while True:
-            pass
+        observer.start()
     except KeyboardInterrupt:
         observer.stop()
     observer.join()

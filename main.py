@@ -12,21 +12,7 @@ from taskScheduler import agentScheduler
 from common import gol
 from conf.configs import config
 from file_agent.file_monitor_new import task, init_watchdog, metric_append, tag_append
-
-# if __name__ == '__main__':
-#     def job2(para1, para2, para3):
-#         print("This is job2")
-#         print("The para1 is " + str(para1))
-#         print("The para2 is " + str(para2))
-#         print("The para2 is " + str(para2))
-#
-#
-#     _dict = {'para1': 3, 'para2': '2', 'para3': '1'}
-#     task = agentScheduler()
-#     task.add_job(job2,kwargs=_dict,id='taskff', trigger='interval',seconds=2, replace_existing=True)
-#     task.start()
-
-
+import random
 
 if __name__ == '__main__':
     gol.init()
@@ -39,16 +25,15 @@ if __name__ == '__main__':
         tag = tag_append(file_conf)
         init_watchdog(file_conf['attr'], path, endpoint + metric + tag)
         rule = file_conf.get('polling').get('one').get('interval')
-        print(file_conf)
+        taskid = (endpoint + metric + tag).replace(',', '')
+        print(taskid)
         if len(str.strip(file_conf.get('polling').get('one').get('interval'))) != 0:
-            tasksc.add_job(func = task,kwargs={'file_conf':file_conf},
-                           id='taskff', trigger='interval',seconds=int(rule), replace_existing=True)
-            
+            tasksc.add_job(func=task, kwargs={'file_conf': file_conf},
+                           id=taskid, trigger='interval', seconds=int(rule), replace_existing=True)
+
         elif len(str.strip(file_conf['polling'].get('two').get('cron'))) != 0:
             pass
         else:
             pass
-    
+
     tasksc.start()
-
-
