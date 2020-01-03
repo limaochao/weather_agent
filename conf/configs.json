@@ -1,0 +1,83 @@
+{
+  "server": {
+    "ip": "10.16.48.228",
+    "push_url": "http://220.243.129.168:1988/v1/push"
+  },
+  "file": [
+    {
+      "dir_path": "/home/cuihaipeng/test/",
+      "file_name": "",
+      "attr": [
+        {
+          "key": "1",
+          "size": "",
+          "value": ""
+        }
+      ],
+      "server_name": "预警业务",
+      "server_level": "1",
+      "process_name": "zip下载",
+      "app_name": "zip下载",
+      "polling": {
+        "one": {
+          "interval": "10",
+          "data_update_interval": "10"
+        },
+        "two": {
+          "cron": "",
+          "time_error": ""
+        }
+      },
+      "dataType": "预警",
+      "subDataType": "zip",
+      "id": "1",
+      "pid": "",
+      "is_finish": "",
+      "department": "department",
+      "branch": "branch",
+      "leader": "leader",
+      "project": "project",
+      "deputy": "deputy"
+    },
+    {
+      "dir_path": "/home/cuihaipeng/python/",
+      "file_name": "",
+      "attr": [
+        {
+          "key": "4",
+          "size": "",
+          "num": ""
+        },
+        {
+          "key": "7",
+          "size": "10",
+          "num": "10"
+        }
+      ],
+      "server_name": "预警业务",
+      "server_level": "1",
+      "process_name": "解压zip",
+      "app_name": "解压zip",
+      "polling": {
+        "one": {
+          "interval": "10",
+          "data_update_interval": "10"
+        },
+        "two": {
+          "cron": "",
+          "time_error": ""
+        }
+      },
+      "dataType": "预警",
+      "subDataType": "zip",
+      "id": "1",
+      "pid": "",
+      "is_finish": "",
+      "department": "department",
+      "branch": "branch",
+      "leader": "leader",
+      "project": "project",
+      "deputy": "deputy"
+    }
+  ]
+}
