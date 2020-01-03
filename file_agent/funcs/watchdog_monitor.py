@@ -25,6 +25,7 @@ class OnCreated(FileSystemEventHandler):
     def on_created(self, event):
         super(OnCreated, self).on_created(event)
         gol.set_value(self.service, time.time())
+        print(time.time())
 
 
 class OnModified(FileSystemEventHandler):

@@ -28,9 +28,7 @@ def task(file_conf):
     endpoint = config.get('server').get('ip')
     metric = metric_append(file_conf)
     tag = tag_append(file_conf)
-    path = file_conf.get('dir_path') + file_conf.get('file_name')
     service_name = endpoint + metric + tag
-    init_watchdog(file_conf['attr'], path, service_name)
     service_logic(file_conf, service_name)
 
 
@@ -73,7 +71,7 @@ def init_watchdog(attr_list, path, service_name):
     for attr in attr_list:
         if attr.get('key') == FileAttr.IS_CREATED.value:
             '''created'''
-            threading.Thread(target=on_created, args=(path, service_name)).start()
+            threading.Thread(target=on_created, args=(path, service_name),daemon=True).start()
         elif attr.get('key') == FileAttr.IS_DELETED.value:
             '''deleted'''
             pass

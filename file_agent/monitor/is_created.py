@@ -33,10 +33,8 @@ def on_created(path, service_name):
     observer = Observer()
     event_handler = OnCreated("create" + service_name)
     observer.schedule(event_handler, path, recursive=False)
-    observer.start()
     try:
-        while True:
-            pass
+        observer.start()
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
