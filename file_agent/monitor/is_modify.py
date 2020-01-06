@@ -31,7 +31,7 @@ def on_modified(path, service_name):
     """watchdog监控文件是否修改"""
     observer = Observer()
     event_handler = OnModified("modified" + service_name)
-    observer.schedule(event_handler, path, recursive=False)
+    observer.schedule(event_handler, path, recursive=True)
     try:
         observer.start()
     except KeyboardInterrupt:
