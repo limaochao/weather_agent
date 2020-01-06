@@ -32,7 +32,7 @@ def on_created(path, service_name):
     """watchdog监控是否有文件新建"""
     observer = Observer()
     event_handler = OnCreated("create" + service_name)
-    observer.schedule(event_handler, path, recursive=False)
+    observer.schedule(event_handler, path, recursive=True)
     try:
         observer.start()
     except KeyboardInterrupt:

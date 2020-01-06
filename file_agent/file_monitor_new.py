@@ -84,7 +84,6 @@ def payload(file_conf, code):
     """
     拼接payload
     param:  file_conf 当前文件配置
-            attr：文件属性，即校验规则
             code：检验结果
     """
     endpoint = config.get('server').get('ip')
