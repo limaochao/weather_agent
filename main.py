@@ -7,7 +7,7 @@
 @Desc   : The file is ...
 @Version: v1.0
 """
-
+from daemon import Daemonize
 from taskScheduler import agentScheduler
 from common import gol
 from conf.configs import config
@@ -33,5 +33,6 @@ if __name__ == '__main__':
             pass
         else:
             pass
+    Daemonize(tasksc.start).start()
 
-    tasksc.start()
+    # tasksc.start()

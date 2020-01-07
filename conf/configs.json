@@ -79,5 +79,41 @@
       "project": "project",
       "deputy": "deputy"
     }
-  ]
+  ],
+  "http": [
+    {
+      "id": "",
+      "pid": "",
+      "is_finish": "",
+      "url": "http://product.weather.com.cn/alarm/grepalarm_cn.php",
+      "name": "预警数据接口总表查询",
+      "attr": {
+          "id": "",
+          "pass": ""
+        },
+      "response_code": "var alarminfo=",
+      "server_name": "预警业务",
+      "server_level": "1",
+      "process_name": "预警数据接口总表查询",
+      "app_name": "预警数据接口探针",
+      "polling": {
+        "one": {
+          "interval": "30",
+          "data_update_interval": "30"
+        },
+        "two": {
+          "cron": "",
+          "time_error": ""
+        }
+      },
+      "dataType": "预警",
+      "subDataType": "json",
+      "step": "1",
+      "department": "department",
+      "branch": "branch",
+      "leader": "leader",
+      "project": "project",
+      "deputy": "deputy"
+    }
+	],
 }

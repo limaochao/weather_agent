@@ -1,16 +1,16 @@
 '''
 scheduler = {
-    'function':'',    函数名，不能重复
+    'function':'',    函数名,不能重复
     'args':'',    参数
-    'id':'',    任务ID，可以为空
+    'id':'',    任务ID,可以为空
     'replace_existing':'True', 如果任务ID重复是否替换
     'trigger':'date|interval|cron', 触发器方式
     'trigger_args':[],    触发器时间格式
 }
 
-cron 定时调度格式：
-(int|str) 表示参数既可以是int类型，也可以是str类型
-(datetime | str) 表示参数既可以是datetime类型，也可以是str类型
+cron 定时调度格式:
+(int|str) 表示参数既可以是int类型,也可以是str类型
+(datetime | str) 表示参数既可以是datetime类型,也可以是str类型
  year (int|str) – 4-digit year -（表示四位数的年份，如2008年）
 month (int|str) – month (1-12) -（表示取值范围为1-12月）
 day (int|str) – day of the (1-31) -（表示取值范围为1-31日）
