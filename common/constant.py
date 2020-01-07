@@ -28,3 +28,4 @@ class Const(object):
 const = Const()
 const.ERROR_CODE = 0
 const.SUCCESS_CODE = 1
+const.UPDATE_TIME = 2
