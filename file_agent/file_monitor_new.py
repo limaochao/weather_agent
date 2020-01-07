@@ -10,6 +10,7 @@
 
 import json
 import threading
+import time
 
 from common.constant import const
 from conf.configs import config
@@ -17,7 +18,7 @@ from file_agent.agent_push import AgentPush, push
 from file_agent.myenum.file_attr_enum import FileAttr
 from file_agent.monitor.file_num_size import file_num_large_size
 from file_agent.monitor.is_created import on_created, is_created
-from file_agent.monitor.is_modify import on_modified, is_modify
+from file_agent.monitor.is_modify import on_modified, is_modified
 
 
 def task(file_conf):
@@ -31,7 +32,6 @@ def task(file_conf):
 
 def service_logic(file_conf, service_name):
     """业务逻辑判断"""
-    # payload_list = []
     file_attr_list = file_conf.get('attr')
     result = []
     for file_attr in file_attr_list:
@@ -39,13 +39,13 @@ def service_logic(file_conf, service_name):
         if key == FileAttr.IS_EXIST.value:
             pass
         if key == FileAttr.IS_CREATED.value:
-            result.append(is_created(file_conf, service_name))
+            result.append(is_created(service_name))
         if key == FileAttr.IS_DELETED.value:
             pass
         if key == FileAttr.IS_MOVED.value:
             pass
         if key == FileAttr.IS_MODIFIED.value:
-            result.append(is_modify(file_conf, service_name))
+            result.append(is_modified(service_name))
         if key == FileAttr.FILE_SIZE.value:
             pass
         if key == FileAttr.FILE_NUM.value:
@@ -56,11 +56,20 @@ def service_logic(file_conf, service_name):
             pass
     code = integration_result(result)
     payload_push = payload(file_conf, code)
+    # TODO 发送5次更新状态
+    if code == const.UPDATE_CODE:
+        t = threading.Thread(target=push_update_code, args=payload_push, daemon=True)
+        t.start()
     print(json.dumps(payload_push))
-    # payload_list.extend(payload(file_conf, code))
-    # print(json.dumps(payload_list))
-    # TODO open falcon push
     push(config.get('server').get('push_url'), payload_push)
+
+
+def push_update_code(payload_push):
+    times = 0
+    while times < const.UPDATE_PUSH_TIME:
+        time.sleep(const.UPDATE_PUSH_INTERVAL)
+        push(config.get('server').get('push_url'), payload_push)
+        times += 1
 
 
 def init_watchdog(attr_list, path, service_name):
@@ -114,7 +123,13 @@ def integration_result(result):
     聚合校验结果list列表，返回唯一值
     result 校验结果list列表
     """
-    for i in result:
-        if i == const.ERROR_CODE:
-            return const.ERROR_CODE
-    return const.SUCCESS_CODE
+    if const.ERROR_CODE in result:
+        return const.ERROR_CODE
+    elif const.UPDATE_CODE in result:
+        return const.UPDATE_CODE
+    else:
+        return const.SUCCESS_CODE
+    # for i in result:
+    #     if i == const.ERROR_CODE:
+    #         return const.ERROR_CODE
+    # return const.SUCCESS_CODE

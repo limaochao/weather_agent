@@ -33,6 +33,6 @@ if __name__ == '__main__':
             pass
         else:
             pass
-    Daemonize(tasksc.start).start()
+    # Daemonize(tasksc.start).start()
 
-    # tasksc.start()
+    tasksc.start()

@@ -21,7 +21,7 @@
       "polling": {
         "one": {
           "interval": "10",
-          "data_update_interval": "10"
+          "data_update_interval": ""
         },
         "two": {
           "cron": "",
@@ -32,7 +32,8 @@
       "subDataType": "zip",
       "id": "1",
       "pid": "",
-      "is_finish": "",
+      "is_begin": "True",
+      "is_finish": "False",
       "department": "department",
       "branch": "branch",
       "leader": "leader",
@@ -44,14 +45,9 @@
       "file_name": "",
       "attr": [
         {
-          "key": "4",
+          "key": "1",
           "size": "",
-          "num": ""
-        },
-        {
-          "key": "7",
-          "size": "10",
-          "num": "10"
+          "value": ""
         }
       ],
       "server_name": "预警业务",
@@ -61,7 +57,7 @@
       "polling": {
         "one": {
           "interval": "10",
-          "data_update_interval": "10"
+          "data_update_interval": ""
         },
         "two": {
           "cron": "",
@@ -70,9 +66,51 @@
       },
       "dataType": "预警",
       "subDataType": "zip",
-      "id": "1",
-      "pid": "",
-      "is_finish": "",
+      "id": "2",
+      "pid": "1",
+      "is_begin": "False",
+      "is_finish": "False",
+      "department": "department",
+      "branch": "branch",
+      "leader": "leader",
+      "project": "project",
+      "deputy": "deputy"
+    },
+    {
+      "dir_path": "/home/cuihaipeng/test1/",
+      "file_name": "",
+      "attr": [
+        {
+          "key": "4",
+          "size": "",
+          "num": ""
+        },
+        {
+          "key": "7",
+          "size": "1",
+          "num": "1"
+        }
+      ],
+      "server_name": "预警业务",
+      "server_level": "1",
+      "process_name": "解压zip",
+      "app_name": "解压zip",
+      "polling": {
+        "one": {
+          "interval": "10",
+          "data_update_interval": ""
+        },
+        "two": {
+          "cron": "",
+          "time_error": ""
+        }
+      },
+      "dataType": "预警",
+      "subDataType": "zip",
+      "id": "3",
+      "pid": "2",
+      "is_begin": "False",
+      "is_finish": "True",
       "department": "department",
       "branch": "branch",
       "leader": "leader",
@@ -115,5 +153,5 @@
       "project": "project",
       "deputy": "deputy"
     }
-	],
+	]
 }

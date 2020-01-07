@@ -15,14 +15,33 @@ from file_agent.funcs.watchdog_monitor import OnCreated
 from watchdog.observers import Observer
 
 
-def is_created(file_conf, service_name):
+def is_created_in_time(data_update_interval, service_name):
     """单位时间内是否有文件新建"""
     last_modify = gol.get_value("create" + service_name)
     if last_modify is None:
         gol.set_value("create" + service_name, time.time())
         code = const.SUCCESS_CODE
-    elif (int(last_modify) + int(file_conf['polling']['one']['data_update_interval'])) < time.time():
+    elif (int(last_modify) + int(data_update_interval)) <= time.time():
         code = const.ERROR_CODE
+    else:
+        code = const.SUCCESS_CODE
+    return code
+
+
+def is_created(service_name):
+    """预警是否新建"""
+    last_modify = gol.get_value("create" + service_name)
+    before_last_modify = gol.get_value("create_before" + service_name)
+    now_time = time.time()
+    if last_modify is None:
+        gol.set_value("create" + service_name, now_time)
+        last_modify = now_time
+    if before_last_modify is None:
+        gol.set_value("create_before" + service_name, gol.get_value("create" + service_name))
+        before_last_modify = now_time
+    if last_modify > before_last_modify:
+        code = const.UPDATE_CODE
+        gol.set_value("create_before" + service_name, gol.get_value("create" + service_name))
     else:
         code = const.SUCCESS_CODE
     return code
