@@ -38,7 +38,7 @@ def on_modified(path, service_name):
         observer.stop()
     observer.join()
 
-# def on_modify(file_conf):
+# def is_modify(file_conf):
 #     """单位时间内是否有文件更新"""
 #     path = file_conf['dir_path'] + file_conf['file_name']
 #     service_name = "modify" + file_conf['server_name'] + file_conf['process_name'] + file_conf['app_name']

@@ -12,7 +12,6 @@ from taskScheduler import agentScheduler
 from common import gol
 from conf.configs import config
 from file_agent.file_monitor_new import task, init_watchdog, metric_append, tag_append
-import random
 
 if __name__ == '__main__':
     gol.init()
@@ -26,7 +25,6 @@ if __name__ == '__main__':
         init_watchdog(file_conf['attr'], path, endpoint + metric + tag)
         rule = file_conf.get('polling').get('one').get('interval')
         taskid = (endpoint + metric + tag).replace(',', '')
-        print(taskid)
         if len(str.strip(file_conf.get('polling').get('one').get('interval'))) != 0:
             tasksc.add_job(func=task, kwargs={'file_conf': file_conf},
                            id=taskid, trigger='interval', seconds=int(rule), replace_existing=True)
