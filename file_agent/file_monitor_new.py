@@ -112,7 +112,7 @@ def tag_append(file_conf):
            file_conf['dataType'] + ',id=' + file_conf['id'] + ',pid=' + file_conf['pid'] + ',is_finish=' + file_conf[
                'is_finish'] + ',leader=' + file_conf['leader'] + ',subDataType=' + file_conf[
                'subDataType'] + ',project=' + file_conf['project'] + ',deputy=' + file_conf['deputy'] + ',source=' + \
-           file_conf['dir_path'] + file_conf['file_name']
+           file_conf['dir_path'] + file_conf['file_name'] + ',is_begin=' + file_conf['is_begin']
 
 
 def integration_result(result):
