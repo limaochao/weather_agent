@@ -33,6 +33,7 @@ def task(file_conf):
 
 def service_logic(file_conf, service_name):
     update_time_info = gol.get_value("updatecode" + service_name)
+    is_push_update_continue = file_conf.get('is_push_update_continue')
     print(update_time_info)
     if update_time_info is not None and update_time_info != 0:
         code = const.UPDATE_CODE
@@ -62,7 +63,7 @@ def service_logic(file_conf, service_name):
             if key == FileAttr.IS_TIMEOUT.value:
                 pass
         code = integration_result(result)
-        if code == const.UPDATE_CODE:
+        if code == const.UPDATE_CODE and is_push_update_continue == 'True':
             gol.set_value("updatecode" + service_name, const.UPDATE_PUSH_TIME)
     payload_push = payload(file_conf, code)
     print(json.dumps(payload_push))

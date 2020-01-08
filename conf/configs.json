@@ -7,6 +7,7 @@
     {
       "dir_path": "/home/cuihaipeng/python/",
       "file_name": "",
+      "is_push_update_continue": "True",
       "attr": [
         {
           "key": "1",
@@ -43,6 +44,7 @@
     {
       "dir_path": "/home/cuihaipeng/test/",
       "file_name": "",
+      "is_push_update_continue": "True",
       "attr": [
         {
           "key": "1",
@@ -79,6 +81,7 @@
     {
       "dir_path": "/home/cuihaipeng/test1/",
       "file_name": "",
+      "is_push_update_continue": "False",
       "attr": [
         {
           "key": "4",
