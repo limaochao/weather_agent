@@ -33,6 +33,4 @@ const.SUCCESS_CODE = 1
 '''更新状态码'''
 const.UPDATE_CODE = 2
 '''更新状态码push次数'''
-const.UPDATE_PUSH_TIME = 5
-'''更新状态码push间隔'''
-const.UPDATE_PUSH_INTERVAL = 10
+const.UPDATE_PUSH_TIME = 4

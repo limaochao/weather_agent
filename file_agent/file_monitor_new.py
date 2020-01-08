@@ -12,6 +12,7 @@ import json
 import threading
 import time
 
+from common import gol
 from common.constant import const
 from conf.configs import config
 from file_agent.agent_push import AgentPush, push
@@ -31,45 +32,41 @@ def task(file_conf):
 
 
 def service_logic(file_conf, service_name):
-    """业务逻辑判断"""
-    file_attr_list = file_conf.get('attr')
-    result = []
-    for file_attr in file_attr_list:
-        key = file_attr.get('key')
-        if key == FileAttr.IS_EXIST.value:
-            pass
-        if key == FileAttr.IS_CREATED.value:
-            result.append(is_created(service_name))
-        if key == FileAttr.IS_DELETED.value:
-            pass
-        if key == FileAttr.IS_MOVED.value:
-            pass
-        if key == FileAttr.IS_MODIFIED.value:
-            result.append(is_modified(service_name))
-        if key == FileAttr.FILE_SIZE.value:
-            pass
-        if key == FileAttr.FILE_NUM.value:
-            pass
-        if key == FileAttr.FILE_NUM_LARGE_SIZE.value:
-            result.append(file_num_large_size(file_conf, file_attr))
-        if key == FileAttr.IS_TIMEOUT.value:
-            pass
-    code = integration_result(result)
+    update_time_info = gol.get_value("updatecode" + service_name)
+    print(update_time_info)
+    if update_time_info is not None and update_time_info != 0:
+        code = const.UPDATE_CODE
+        gol.set_value("updatecode" + service_name, update_time_info - 1)
+    else:
+        """业务逻辑判断"""
+        file_attr_list = file_conf.get('attr')
+        result = []
+        for file_attr in file_attr_list:
+            key = file_attr.get('key')
+            if key == FileAttr.IS_EXIST.value:
+                pass
+            if key == FileAttr.IS_CREATED.value:
+                result.append(is_created(service_name))
+            if key == FileAttr.IS_DELETED.value:
+                pass
+            if key == FileAttr.IS_MOVED.value:
+                pass
+            if key == FileAttr.IS_MODIFIED.value:
+                result.append(is_modified(service_name))
+            if key == FileAttr.FILE_SIZE.value:
+                pass
+            if key == FileAttr.FILE_NUM.value:
+                pass
+            if key == FileAttr.FILE_NUM_LARGE_SIZE.value:
+                result.append(file_num_large_size(file_conf, file_attr))
+            if key == FileAttr.IS_TIMEOUT.value:
+                pass
+        code = integration_result(result)
+        if code == const.UPDATE_CODE:
+            gol.set_value("updatecode" + service_name, const.UPDATE_PUSH_TIME)
     payload_push = payload(file_conf, code)
-    # TODO 发送5次更新状态
-    if code == const.UPDATE_CODE:
-        t = threading.Thread(target=push_update_code, args=payload_push, daemon=True)
-        t.start()
     print(json.dumps(payload_push))
     push(config.get('server').get('push_url'), payload_push)
-
-
-def push_update_code(payload_push):
-    times = 0
-    while times < const.UPDATE_PUSH_TIME:
-        time.sleep(const.UPDATE_PUSH_INTERVAL)
-        push(config.get('server').get('push_url'), payload_push)
-        times += 1
 
 
 def init_watchdog(attr_list, path, service_name):
