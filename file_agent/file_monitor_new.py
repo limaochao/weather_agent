@@ -58,7 +58,7 @@ def service_logic(file_conf, service_name):
     payload_push = payload(file_conf, code)
     # TODO 发送5次更新状态
     if code == const.UPDATE_CODE:
-        t = threading.Thread(target=push_update_code, args=payload_push, daemon=True)
+        t = threading.Thread(target=push_update_code, args=payload_push)
         t.start()
     print(json.dumps(payload_push))
     push(config.get('server').get('push_url'), payload_push)
