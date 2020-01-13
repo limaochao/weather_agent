@@ -10,25 +10,22 @@
 
 from agent.common import gol, agent_push, constant
 from agent.conf.configs import config
-from agent.conf import config_read
 from agent.http import url_access
 
 
 def api_agent(http_dict, server_dict):
     # 读取HTTP部分字典
 
-    http_zone = config_read.ConfigInit(http_dict)
-    metric = http_zone.get_http_metric()
-    step = http_zone.get_step()
-    tags = http_zone.get_http_tag()
+    metric = http_dict.get_http_metric()
+    step = http_dict.get_interval()
+    tags = http_dict.get_http_tag()
 
     # 读取SERVER部分字典
-    server_zone = config_read.ServerConf(server_dict)
-    endpoint = server_zone.get_endpoint()
-    push_url = server_zone.get_push_url()
+    endpoint = server_dict.get_endpoint()
+    push_url = server_dict.get_push_url()
 
     # 调取配置文件URL访问相关部分
-    url_info = http_zone.get_url_info()
+    url_info = http_dict.get_url_info()
     # print("url info = ", url_info)
 
     # 将URL地址以及回显缓存字典key移交URL处理，采集分析结果以及回显

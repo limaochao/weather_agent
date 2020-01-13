@@ -19,7 +19,7 @@ def CounterIncr():
     it = increase()  # 一定要将生成器转给一个(生成器)对象,才可以完成
 
     def counter():  # 再定义一个内函数
-        return next(it)  # 调用生成器的值,每次调用均自增注意：it不要加()括号调用会出错的
+        return next(it)  # 调用生成器的值,每次调用均自增
 
     return counter
 

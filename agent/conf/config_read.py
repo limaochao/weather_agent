@@ -57,9 +57,6 @@ class ConfigInit:
     def get_file_path(self):
         return self.config_dict.get('dir_path') + self.config_dict.get('file_name')
 
-    def get_step(self):
-        return self.config_dict.get('step')
-
     def get_interval(self):
         """ 返回定时调度所需部分信息 """
         return self.config_dict.get('polling').get('one').get('interval')
