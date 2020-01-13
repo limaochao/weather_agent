@@ -26,11 +26,11 @@ def task(file_dict, server_dict):
     step = file_dict.get_interval()
     tag = file_dict.get_file_tag()
     service_name = endpoint + metric + tag
-    update_time_info = gol.get_value("updatecode" + service_name)
+    update_time_info = gol.get_value("update_times" + service_name)
     is_push_update_continue = file_dict.get_is_push_update_continue()
     if update_time_info is not None and update_time_info != 0:
         code = const.UPDATE_CODE
-        gol.set_value("updatecode" + service_name, update_time_info - 1)
+        gol.set_value("update_times" + service_name, update_time_info - 1)
     else:
         """业务逻辑判断"""
         file_attr_list = file_dict.get_attr()
@@ -57,7 +57,7 @@ def task(file_dict, server_dict):
                 pass
         code = integration_result(result)
         if code == const.UPDATE_CODE and is_push_update_continue == 'True':
-            gol.set_value("updatecode" + service_name, const.UPDATE_PUSH_TIME)
+            gol.set_value("update_times" + service_name, const.UPDATE_PUSH_TIME)
     agent_push.AgentPush(endpoint, metric, step, code, "GAUGE", tag).push(push_url)
 
 

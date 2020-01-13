@@ -37,7 +37,7 @@ def api_agent(http_dict, server_dict):
     sender = agent_push.AgentPush(endpoint, metric, step, value, "GAUGE", tags)
     # 数据有更新，尝试连续推送5次，其他情况只推送一次
     if value == constant.const.UPDATE_CODE:
-        for _ in constant.const.UPDATE_PUSH_TIME:
+        for _ in range(constant.const.UPDATE_PUSH_TIME):
             sender.push(push_url)
     sender.push(push_url)
 
