@@ -70,7 +70,4 @@ class AgentPush:
         r1 = requests.post(push_url, data=json.dumps(self.payload))
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " : push value '" + str(self.value)
               + "' to URL : " + push_url + " : " + r1.text)
-
-
-# def push(push_url, payload):
-#     requests.post(push_url, data=json.dumps(payload))
+        print(json.dumps(self.payload))

@@ -68,6 +68,9 @@ class ConfigInit:
         """ 返回定时调度所需部分信息 """
         return self.config_dict.get('polling').get('two').get('cron')
 
+    def get_is_push_update_continue(self):
+        return self.config_dict.get('is_push_update_continue')
+
 
 class ServerConf:
     def __init__(self, input_dict):

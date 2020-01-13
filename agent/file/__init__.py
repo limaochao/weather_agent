@@ -12,18 +12,14 @@ import threading
 
 from agent.common import gol, agent_push
 from agent.common.constant import const
-from agent.conf import config_read
-from agent.conf.configs import config
 from agent.file.monitor.file_num_size import file_num_large_size
 from agent.file.monitor.is_created import is_created, on_created
 from agent.file.monitor.is_modify import on_modified, is_modified
 from agent.common.enum.file_attr_enum import FileAttr
 
 
-def task(file_conf):
+def task(file_dict, server_dict):
     """任务调度"""
-    file_dict = config_read.ConfigInit(file_conf)
-    server_dict = config_read.ServerConf(config.get('server'))
     endpoint = server_dict.get_endpoint()
     push_url = server_dict.get_push_url()
     metric = file_dict.get_file_metric()
@@ -31,8 +27,7 @@ def task(file_conf):
     tag = file_dict.get_file_tag()
     service_name = endpoint + metric + tag
     update_time_info = gol.get_value("updatecode" + service_name)
-    is_push_update_continue = file_conf.get('is_push_update_continue')
-    print(update_time_info)
+    is_push_update_continue = file_dict.get_is_push_update_continue()
     if update_time_info is not None and update_time_info != 0:
         code = const.UPDATE_CODE
         gol.set_value("updatecode" + service_name, update_time_info - 1)
@@ -57,7 +52,7 @@ def task(file_conf):
             if key == FileAttr.FILE_NUM.value:
                 pass
             if key == FileAttr.FILE_NUM_LARGE_SIZE.value:
-                result.append(file_num_large_size(file_conf, file_attr))
+                result.append(file_num_large_size(file_dict.get_file_path(), file_attr))
             if key == FileAttr.IS_TIMEOUT.value:
                 pass
         code = integration_result(result)

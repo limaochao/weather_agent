@@ -21,7 +21,7 @@
       "app_name": "zip下载",
       "polling": {
         "one": {
-          "interval": "10",
+          "interval": "30",
           "data_update_interval": ""
         },
         "two": {
@@ -42,7 +42,7 @@
       "deputy": "deputy"
     },
     {
-      "dir_path": "/home/cuihaipeng/test/",
+      "dir_path": "/home/cuihaipeng/test1/",
       "file_name": "",
       "is_push_update_continue": "True",
       "attr": [
@@ -58,7 +58,7 @@
       "app_name": "解压zip",
       "polling": {
         "one": {
-          "interval": "10",
+          "interval": "30",
           "data_update_interval": ""
         },
         "two": {
@@ -79,7 +79,7 @@
       "deputy": "deputy"
     },
     {
-      "dir_path": "/home/cuihaipeng/test1/",
+      "dir_path": "/home/cuihaipeng/test/",
       "file_name": "",
       "is_push_update_continue": "False",
       "attr": [
@@ -100,7 +100,7 @@
       "app_name": "解压zip",
       "polling": {
         "one": {
-          "interval": "10",
+          "interval": "30",
           "data_update_interval": ""
         },
         "two": {
