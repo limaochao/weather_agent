@@ -1,37 +1,35 @@
 # coding: utf-8
 
 """
-@Time : 2020-01-02 17:39 
+@Time : 2019-12-25 18:22 
 @Author : cuihaipeng
-@File : file_monitor_new.py
+@File : __init__.py.py
 @pyVersion: 3.6.8
 @desc :
 """
 
-import json
 import threading
-import time
 
-from common import gol
-from common.constant import const
-from conf.configs import config
-from file_agent.agent_push import AgentPush, push
-from file_agent.myenum.file_attr_enum import FileAttr
-from file_agent.monitor.file_num_size import file_num_large_size
-from file_agent.monitor.is_created import on_created, is_created
-from file_agent.monitor.is_modify import on_modified, is_modified
+from agent.common import gol, agent_push
+from agent.common.constant import const
+from agent.conf import config_read
+from agent.conf.configs import config
+from agent.file.monitor.file_num_size import file_num_large_size
+from agent.file.monitor.is_created import is_created, on_created
+from agent.file.monitor.is_modify import on_modified, is_modified
+from agent.common.enum.file_attr_enum import FileAttr
 
 
 def task(file_conf):
     """任务调度"""
-    endpoint = config.get('server').get('ip')
-    metric = metric_append(file_conf)
-    tag = tag_append(file_conf)
+    file_dict = config_read.ConfigInit(file_conf)
+    server_dict = config_read.ServerConf(config.get('server'))
+    endpoint = server_dict.get_endpoint()
+    push_url = server_dict.get_push_url()
+    metric = file_dict.get_file_metric()
+    step = file_dict.get_interval()
+    tag = file_dict.get_file_tag()
     service_name = endpoint + metric + tag
-    service_logic(file_conf, service_name)
-
-
-def service_logic(file_conf, service_name):
     update_time_info = gol.get_value("updatecode" + service_name)
     is_push_update_continue = file_conf.get('is_push_update_continue')
     print(update_time_info)
@@ -40,7 +38,7 @@ def service_logic(file_conf, service_name):
         gol.set_value("updatecode" + service_name, update_time_info - 1)
     else:
         """业务逻辑判断"""
-        file_attr_list = file_conf.get('attr')
+        file_attr_list = file_dict.get_attr()
         result = []
         for file_attr in file_attr_list:
             key = file_attr.get('key')
@@ -65,9 +63,7 @@ def service_logic(file_conf, service_name):
         code = integration_result(result)
         if code == const.UPDATE_CODE and is_push_update_continue == 'True':
             gol.set_value("updatecode" + service_name, const.UPDATE_PUSH_TIME)
-    payload_push = payload(file_conf, code)
-    print(json.dumps(payload_push))
-    push(config.get('server').get('push_url'), payload_push)
+    agent_push.AgentPush(endpoint, metric, step, code, "GAUGE", tag).push(push_url)
 
 
 def init_watchdog(attr_list, path, service_name):
@@ -87,35 +83,6 @@ def init_watchdog(attr_list, path, service_name):
             threading.Thread(target=on_modified, args=(path, service_name), daemon=True).start()
 
 
-def payload(file_conf, code):
-    """
-    拼接payload
-    param:  file_conf 当前文件配置
-            code：检验结果
-    """
-    endpoint = config.get('server').get('ip')
-    metric = metric_append(file_conf)
-    step = int(file_conf['polling']['one']['interval'])
-    tag = tag_append(file_conf)
-    _push = AgentPush(endpoint, metric, step, code, 'GAUGE', tag)
-    return _push.payload_push()
-
-
-def metric_append(file_conf):
-    attr_list = []
-    for file_attr in file_conf.get('attr'):
-        attr_list.append(file_attr.get('key'))
-    return 'file-' + file_conf.get('dataType') + '-' + file_conf.get('subDataType') + '-' + '&'.join(attr_list)
-
-
-def tag_append(file_conf):
-    return 'department=' + file_conf['department'] + ',branch=' + file_conf['branch'] + ',type=file,dataType=' + \
-           file_conf['dataType'] + ',id=' + file_conf['id'] + ',pid=' + file_conf['pid'] + ',is_finish=' + file_conf[
-               'is_finish'] + ',leader=' + file_conf['leader'] + ',subDataType=' + file_conf[
-               'subDataType'] + ',project=' + file_conf['project'] + ',deputy=' + file_conf['deputy'] + ',source=' + \
-           file_conf['dir_path'] + file_conf['file_name'] + ',is_begin=' + file_conf['is_begin']
-
-
 def integration_result(result):
     """
     聚合校验结果list列表，返回唯一值
@@ -127,7 +94,3 @@ def integration_result(result):
         return const.UPDATE_CODE
     else:
         return const.SUCCESS_CODE
-    # for i in result:
-    #     if i == const.ERROR_CODE:
-    #         return const.ERROR_CODE
-    # return const.SUCCESS_CODE

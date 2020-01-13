@@ -10,8 +10,8 @@
 
 import os
 
-from common.constant import const
-from file_agent.funcs.counter_incr import counter_
+from agent.common.constant import const
+from agent.file.funcs.counter_incr import counter_
 
 
 def file_num_large_size(file_conf, file_attr):

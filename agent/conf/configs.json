@@ -129,9 +129,9 @@
       "url": "http://product.weather.com.cn/alarm/grepalarm_cn.php",
       "name": "预警数据接口总表查询",
       "attr": {
-          "id": "",
-          "pass": ""
-        },
+        "id": "",
+        "pass": ""
+      },
       "response_code": "var alarminfo=",
       "server_name": "预警业务",
       "server_level": "1",
@@ -156,5 +156,5 @@
       "project": "project",
       "deputy": "deputy"
     }
-	]
+  ]
 }

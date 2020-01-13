@@ -3,12 +3,12 @@
 """
 @Time : 2019-12-20 11:19 
 @Author : cuihaipeng
-@File : agent_push.py
 @pyVersion: 3.6.8
 @desc : open faicon push
 """
 import json
 import time
+import datetime
 
 import requests
 
@@ -54,20 +54,23 @@ class AgentPush:
         self.counterType = counterType
         self.tags = tags
 
-    def payload_push(self):
-        payload = [
+        self.payload = [
             {
-                "endpoint": self.endpoint,
-                "metric": self.metric,
+                "endpoint": endpoint,
+                "metric": metric,
                 "timestamp": int(time.time()),
-                "step": self.step,
-                "value": self.value,
-                "counterType": self.counterType,
-                "tags": self.tags,
+                "step": int(step),
+                "value": value,
+                "counterType": counterType,
+                "tags": tags,
             },
         ]
-        return payload
+
+    def push(self, push_url):
+        r1 = requests.post(push_url, data=json.dumps(self.payload))
+        print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " : push value '" + str(self.value)
+              + "' to URL : " + push_url + " : " + r1.text)
 
 
-def push(push_url, payload):
-    requests.post(push_url, data=json.dumps(payload))
+# def push(push_url, payload):
+#     requests.post(push_url, data=json.dumps(payload))

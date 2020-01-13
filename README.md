@@ -1,5 +1,5 @@
 {
-  "server": {
+  "server": {全局配置
     "ip": "ip",
     "push_url": "数据push url"
   },
@@ -112,7 +112,6 @@
       "project": "project",
       "deputy": "deputy"
     }
-	]
-
+    ]
 }
 
