@@ -39,7 +39,10 @@ class ConfigInit:
                + ',type=file'
 
     def get_http_metric(self, result=None):
-        return 'http-' + self.config_dict.get('dataType') + '-' + self.config_dict.get('subDataType') + result
+        if result is None:
+            return 'http-' + self.config_dict.get('dataType') + '-' + self.config_dict.get('subDataType')
+        else:
+            return 'http-' + self.config_dict.get('dataType') + '-' + self.config_dict.get('subDataType') + result
 
     def get_file_metric(self):
         attr_list = []

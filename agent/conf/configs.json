@@ -126,6 +126,7 @@
       "id": "",
       "pid": "",
       "is_finish": "",
+      "is_begin": "",
       "url": "http://product.weather.com.cn/alarm/grepalarm_cn.php",
       "name": "预警数据接口总表查询",
       "attr": {
