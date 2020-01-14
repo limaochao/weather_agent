@@ -15,7 +15,7 @@ from agent.common.constant import const
 from agent.file.monitor.file_num_size import file_num_large_size
 from agent.file.monitor.is_created import is_created, on_created
 from agent.file.monitor.is_modify import on_modified, is_modified
-from agent.common.enum.file_attr_enum import FileAttr
+from agent.common.enums.file_attr_enum import FileAttr
 
 
 def task(file_dict, server_dict):

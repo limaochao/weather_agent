@@ -1,4 +1,7 @@
 # coding:utf-8
+from agent.common.exceptions import dict_value_is_empty, str_length_valid
+
+
 class ConfigInit:
 
     def __init__(self, input_dict):
@@ -13,49 +16,64 @@ class ConfigInit:
 
     def get_url_info(self):
         """ 返回url所需信息（数组），依次是url地址，name，attr（含id和pass的字典），response_code """
-        url_info = [self.config_dict['url'], self.config_dict['name'], self.config_dict['attr'],
-                    self.config_dict['response_code']]
+        url_info = [dict_value_is_empty(self.config_dict, 'url'),
+                    dict_value_is_empty(self.config_dict, 'name'),
+                    dict_value_is_empty(self.config_dict, 'attr'),
+                    dict_value_is_empty(self.config_dict, 'response_code')]
         return url_info
 
     def get_http_tag(self):
         """ 返回http推送报警报告所需部分信息 """
-        return 'branch=' + self.config_dict['branch'] + ',dataType=' + self.config_dict['dataType'] \
-               + ',department=' + self.config_dict['department'] + ',deputy=' + self.config_dict['deputy'] \
-               + ',id=' + self.config_dict['id'] + ',is_begin=' + self.config_dict['is_begin'] \
-               + ',is_finish=' + self.config_dict['is_finish'] + ',leader=' + self.config_dict['leader'] \
-               + ',pid=' + self.config_dict['pid'] + ',project=' + self.config_dict['project'] \
-               + ',source=' + self.config_dict['url'] + ',subDataType=' + self.config_dict['subDataType'] \
-               + ',type=http'
+        return self.tags_common() + ',source=' + dict_value_is_empty(self.config_dict, 'url') + ',type=http'
 
     def get_file_tag(self):
         """ 返回file推送报警报告所需部分信息 """
-        return 'branch=' + self.config_dict['branch'] + ',dataType=' + self.config_dict['dataType'] \
-               + ',department=' + self.config_dict['department'] + ',deputy=' + self.config_dict['deputy'] \
-               + ',id=' + self.config_dict['id'] + ',is_begin=' + self.config_dict['is_begin'] \
-               + ',is_finish=' + self.config_dict['is_finish'] + ',leader=' + self.config_dict['leader'] \
-               + ',pid=' + self.config_dict['pid'] + ',project=' + self.config_dict['project'] \
-               + ',source=' + self.config_dict['dir_path'] + self.config_dict['file_name'] + ',subDataType=' + \
-               self.config_dict['subDataType'] \
-               + ',type=file'
+        return self.tags_common() + ',source=' + dict_value_is_empty(self.config_dict, 'dir_path') \
+               + self.config_dict.get('file_name') + ',type=file'
+
+    def tags_common(self):
+        """返回tag公共部分信息"""
+        return 'branch=' + dict_value_is_empty(self.config_dict, 'branch') \
+               + ',dataType=' + dict_value_is_empty(self.config_dict, 'dataType') \
+               + ',department=' + dict_value_is_empty(self.config_dict, 'department') \
+               + ',deputy=' + self.config_dict.get('deputy') \
+               + ',id=' + dict_value_is_empty(self.config_dict, 'id') \
+               + ',is_begin=' + dict_value_is_empty(self.config_dict, 'is_begin') \
+               + ',is_finish=' + dict_value_is_empty(self.config_dict, 'is_finish') \
+               + ',leader=' + dict_value_is_empty(self.config_dict, 'leader') \
+               + ',pid=' + self.__get_pid() \
+               + ',project=' + dict_value_is_empty(self.config_dict, 'project') \
+               + ',subDataType=' + self.config_dict.get('subDataType') \
+               + ',action=' + str_length_valid(dict_value_is_empty(self.config_dict, 'action'), 10, 'action')
+
+    def __get_pid(self):
+        if dict_value_is_empty(self.config_dict, 'is_begin') == 'True':
+            return ''
+        elif dict_value_is_empty(self.config_dict, 'is_begin') == 'False':
+            return dict_value_is_empty(self.config_dict, 'pid')
+        else:
+            pass
 
     def get_http_metric(self, result=None):
         if result is None:
-            return 'http-' + self.config_dict.get('dataType') + '-' + self.config_dict.get('subDataType')
+            return 'http-' + dict_value_is_empty(self.config_dict, 'dataType') + '-' + self.config_dict.get(
+                'subDataType')
         else:
-            return 'http-' + self.config_dict.get('dataType') + '-' + self.config_dict.get('subDataType') + result
+            return 'http-' + dict_value_is_empty(self.config_dict, 'dataType') + '-' + self.config_dict.get(
+                'subDataType') + result
 
     def get_file_metric(self):
         attr_list = []
-        for file_attr in self.config_dict.get('attr'):
+        for file_attr in self.get_attr():
             attr_list.append(file_attr.get('key'))
-        return 'file-' + self.config_dict.get('dataType') + '-' + self.config_dict.get('subDataType') + '-' + '&'.join(
-            attr_list)
+        return 'file-' + dict_value_is_empty(self.config_dict, 'dataType') + '-' + self.config_dict.get(
+            'subDataType') + '-' + '&'.join(attr_list)
 
     def get_attr(self):
-        return self.config_dict.get('attr')
+        return dict_value_is_empty(self.config_dict, 'attr')
 
     def get_file_path(self):
-        return self.config_dict.get('dir_path') + self.config_dict.get('file_name')
+        return dict_value_is_empty(self.config_dict, 'dir_path') + self.config_dict.get('file_name')
 
     def get_interval(self):
         """ 返回定时调度所需部分信息 """
@@ -66,7 +84,7 @@ class ConfigInit:
         return self.config_dict.get('polling').get('two').get('cron')
 
     def get_is_push_update_continue(self):
-        return self.config_dict.get('is_push_update_continue')
+        return dict_value_is_empty(self.config_dict, 'is_push_update_continue')
 
 
 class ServerConf:
@@ -75,8 +93,8 @@ class ServerConf:
 
     def get_endpoint(self):
         """ 返回服务器endpoint """
-        return self.conf_dict.get('ip')
+        return dict_value_is_empty(self.conf_dict, 'ip')
 
     def get_push_url(self):
         """ 返回push url """
-        return self.conf_dict.get('push_url')
+        return dict_value_is_empty(self.conf_dict, 'push_url')
