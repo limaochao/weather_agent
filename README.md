@@ -1,5 +1,5 @@
 {
-  "server": {
+  "server": {全局配置
     "ip": "ip",
     "push_url": "数据push url"
   },
@@ -68,6 +68,7 @@
       "subDataType": "数据类细分",
       "id": "agent id",
       "pid": "父id",
+      "action": "从父节点到本节点的link描述(不超过10个字符)",
       "is_begin": "是否开始节点",
       "is_finish": "是否结束节点",
       "department": "部门",
@@ -81,6 +82,8 @@
     {
       "id": "",
       "pid": "",
+      "action": "",
+      "is_begin": "",
       "is_finish": "",
       "url": "http://product.weather.com.cn/alarm/grepalarm_cn.php",
       "name": "预警数据接口总表查询",
@@ -105,14 +108,12 @@
       },
       "dataType": "预警",
       "subDataType": "json",
-      "step": "1",
       "department": "department",
       "branch": "branch",
       "leader": "leader",
       "project": "project",
       "deputy": "deputy"
     }
-	]
-
+    ]
 }
 

@@ -1,6 +1,6 @@
 {
   "server": {
-    "ip": "10.16.48.228",
+    "ip": "整合测试",
     "push_url": "http://220.243.129.168:1988/v1/push"
   },
   "file": [
@@ -21,7 +21,7 @@
       "app_name": "zip下载",
       "polling": {
         "one": {
-          "interval": "10",
+          "interval": "30",
           "data_update_interval": ""
         },
         "two": {
@@ -33,6 +33,7 @@
       "subDataType": "zip",
       "id": "1",
       "pid": "",
+      "action": "测试zip下载",
       "is_begin": "True",
       "is_finish": "False",
       "department": "department",
@@ -42,7 +43,7 @@
       "deputy": "deputy"
     },
     {
-      "dir_path": "/home/cuihaipeng/test/",
+      "dir_path": "/home/cuihaipeng/test1/",
       "file_name": "",
       "is_push_update_continue": "True",
       "attr": [
@@ -58,7 +59,7 @@
       "app_name": "解压zip",
       "polling": {
         "one": {
-          "interval": "10",
+          "interval": "30",
           "data_update_interval": ""
         },
         "two": {
@@ -70,6 +71,7 @@
       "subDataType": "zip",
       "id": "2",
       "pid": "1",
+      "action": "测试zip解压",
       "is_begin": "False",
       "is_finish": "False",
       "department": "department",
@@ -79,7 +81,7 @@
       "deputy": "deputy"
     },
     {
-      "dir_path": "/home/cuihaipeng/test1/",
+      "dir_path": "/home/cuihaipeng/test/",
       "file_name": "",
       "is_push_update_continue": "False",
       "attr": [
@@ -100,7 +102,7 @@
       "app_name": "解压zip",
       "polling": {
         "one": {
-          "interval": "10",
+          "interval": "180",
           "data_update_interval": ""
         },
         "two": {
@@ -112,8 +114,9 @@
       "subDataType": "zip",
       "id": "3",
       "pid": "2",
+      "action": "测试文件处理",
       "is_begin": "False",
-      "is_finish": "True",
+      "is_finish": "False",
       "department": "department",
       "branch": "branch",
       "leader": "leader",
@@ -123,15 +126,17 @@
   ],
   "http": [
     {
-      "id": "",
-      "pid": "",
-      "is_finish": "",
+      "id": "4",
+      "pid": "3",
+      "action": "预警数据接口总表查询",
+      "is_finish": "True",
+      "is_begin": "False",
       "url": "http://product.weather.com.cn/alarm/grepalarm_cn.php",
       "name": "预警数据接口总表查询",
       "attr": {
-          "id": "",
-          "pass": ""
-        },
+        "id": "",
+        "pass": ""
+      },
       "response_code": "var alarminfo=",
       "server_name": "预警业务",
       "server_level": "1",
@@ -149,12 +154,46 @@
       },
       "dataType": "预警",
       "subDataType": "json",
-      "step": "1",
+      "department": "department",
+      "branch": "branch",
+      "leader": "leader",
+      "project": "project",
+      "deputy": "deputy"
+    },
+    {
+      "id": "5",
+      "pid": "3",
+      "action": "预警接口总表查询2",
+      "is_finish": "True",
+      "is_begin": "False",
+      "url": "http://product.weather.com.cn/alarm/grepalarm_cn.php",
+      "name": "预警数据接口总表查询",
+      "attr": {
+        "id": "",
+        "pass": ""
+      },
+      "response_code": "var alarminfo=",
+      "server_name": "预警业务",
+      "server_level": "1",
+      "process_name": "预警数据接口总表查询",
+      "app_name": "预警数据接口探针",
+      "polling": {
+        "one": {
+          "interval": "30",
+          "data_update_interval": "30"
+        },
+        "two": {
+          "cron": "",
+          "time_error": ""
+        }
+      },
+      "dataType": "预警",
+      "subDataType": "json",
       "department": "department",
       "branch": "branch",
       "leader": "leader",
       "project": "project",
       "deputy": "deputy"
     }
-	]
+  ]
 }

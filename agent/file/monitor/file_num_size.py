@@ -9,14 +9,14 @@
 """
 
 import os
+import time
 
-from common.constant import const
-from file_agent.funcs.counter_incr import counter_
+from agent.common.constant import const
+from agent.file.funcs.counter_incr import counter_
 
 
-def file_num_large_size(file_conf, file_attr):
+def file_num_large_size(path, file_attr):
     """判断文件大于size的文件数量,忽略子目录"""
-    path = file_conf['dir_path']
     file_list = os.listdir(path)  # 获取path目录下所有文件
     num = 0
     for file_name in file_list:

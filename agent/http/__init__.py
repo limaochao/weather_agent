@@ -1,27 +1,31 @@
-# coding:utf-8
-import json
+# coding: utf-8
 
-import jsonconf_read
-import url_access
-import agent_push
-import gol
-import const_vars
+"""
+@Time : 2020-01-10 17:10 
+@Author : cuihaipeng
+@File : __init__.py.py
+@pyVersion: 3.6.8
+@desc :
+"""
+
+from agent.common import gol, agent_push, constant
+from agent.conf.configs import config
+from agent.http import url_access
 
 
 def api_agent(http_dict, server_dict):
     # 读取HTTP部分字典
-    http_zone = jsonconf_read.HttpConf(http_dict)
-    metric = http_zone.get_metric()
-    step = http_zone.get_step()
-    tags = http_zone.get_tag()
+
+    metric = http_dict.get_http_metric()
+    step = http_dict.get_interval()
+    tags = http_dict.get_http_tag()
 
     # 读取SERVER部分字典
-    server_zone = jsonconf_read.ServerConf(server_dict)
-    endpoint = server_zone.get_endpoint()
-    push_url = server_zone.get_push_url()
+    endpoint = server_dict.get_endpoint()
+    push_url = server_dict.get_push_url()
 
     # 调取配置文件URL访问相关部分
-    url_info = http_zone.get_url_info()
+    url_info = http_dict.get_url_info()
     # print("url info = ", url_info)
 
     # 将URL地址以及回显缓存字典key移交URL处理，采集分析结果以及回显
@@ -32,19 +36,16 @@ def api_agent(http_dict, server_dict):
     value = result[0]
     sender = agent_push.AgentPush(endpoint, metric, step, value, "GAUGE", tags)
     # 数据有更新，尝试连续推送5次，其他情况只推送一次
-    if value == const_vars.const.UPDATE_CODE:
-        for _ in (4):
+    if value == constant.const.UPDATE_CODE:
+        for _ in range(constant.const.UPDATE_PUSH_TIME):
             sender.push(push_url)
     sender.push(push_url)
 
 
 def main():
     gol.init()
-    conf_file = open("./configs.json", "rb")
-    conf_dict = json.loads(conf_file.read())
-    conf_file.close()
-    http_list = conf_dict.get('http')
-    server_dict = conf_dict.get('server')
+    http_list = config.get('http')
+    server_dict = config.get('server')
     for http_dict in http_list:
         api_agent(http_dict, server_dict)
 

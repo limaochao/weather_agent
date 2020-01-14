@@ -7,32 +7,43 @@
 @Desc   : The file is ...
 @Version: v1.0
 """
-from daemon import Daemonize
-from taskScheduler import agentScheduler
-from common import gol
-from conf.configs import config
-from file_agent.file_monitor_new import task, init_watchdog, metric_append, tag_append
+from agent.conf import config_read
+from agent.conf.configs import config
+from agent.http import api_agent
+from agent.scheduler.taskScheduler import AgentScheduler
+from agent.common import gol
+from agent.file import task, init_watchdog
 
 if __name__ == '__main__':
     gol.init()
-    tasksc = agentScheduler()
+    tasksc = AgentScheduler()
+    server_dict = config_read.ServerConf(config.get('server'))
     file_list = config.get('file')
-    endpoint = config.get('server').get('ip')
+    http_list = config.get('http')
+    endpoint = server_dict.get_endpoint()
     for file_conf in file_list:
-        path = file_conf.get('dir_path') + file_conf.get('file_name')
-        metric = metric_append(file_conf)
-        tag = tag_append(file_conf)
-        init_watchdog(file_conf['attr'], path, endpoint + metric + tag)
-        rule = file_conf.get('polling').get('one').get('interval')
+        file_dict = config_read.ConfigInit(file_conf)
+        path = file_dict.get_file_path()
+        metric = file_dict.get_file_metric()
+        tag = file_dict.get_file_tag()
+        init_watchdog(file_dict.get_attr(), path, endpoint + metric + tag)
         taskid = (endpoint + metric + tag).replace(',', '')
-        if len(str.strip(file_conf.get('polling').get('one').get('interval'))) != 0:
-            tasksc.add_job(func=task, kwargs={'file_conf': file_conf},
-                           id=taskid, trigger='interval', seconds=int(rule), replace_existing=True)
+        if len(str.strip(file_dict.get_interval())) != 0:
+            tasksc.add_job(func=task, kwargs={'file_dict': file_dict, 'server_dict': server_dict},
+                           id=taskid, trigger='interval', seconds=int(file_dict.get_interval()), replace_existing=True)
 
-        elif len(str.strip(file_conf['polling'].get('two').get('cron'))) != 0:
+        elif len(str.strip(file_dict.get_cron())) != 0:
             pass
         else:
             pass
+    for http_conf in http_list:
+        http_dict = config_read.ConfigInit(http_conf)
+        metric = http_dict.get_http_metric()
+        tag = http_dict.get_http_tag()
+        taskid = (endpoint + metric + tag).replace(',', '')
+        tasksc.add_job(func=api_agent, kwargs={'http_dict': http_dict, 'server_dict': server_dict},
+                       id=taskid, trigger='interval', seconds=int(http_dict.get_interval()), replace_existing=True)
     # Daemonize(tasksc.start).start()
 
+    print(tasksc.get_jobs())
     tasksc.start()

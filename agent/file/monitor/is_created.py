@@ -9,10 +9,11 @@
 """
 import time
 
-from common import gol
-from common.constant import const
-from file_agent.funcs.watchdog_monitor import OnCreated
+from agent.common import gol
 from watchdog.observers import Observer
+
+from agent.common.constant import const
+from agent.file.funcs.watchdog_monitor import OnCreated
 
 
 def is_created_in_time(data_update_interval, service_name):

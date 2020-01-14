@@ -10,7 +10,7 @@
 import time
 from watchdog.events import FileSystemEventHandler
 
-from common import gol
+from agent.common import gol
 
 
 class OnCreated(FileSystemEventHandler):
