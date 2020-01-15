@@ -25,7 +25,7 @@ if __name__ == '__main__':
         file_dict = config_read.ConfigInit(file_conf)
         path = file_dict.get_file_path()
         metric = file_dict.get_file_metric()
-        tag = file_dict.get_file_tag()
+        tag = file_dict.get_tags('file')
         init_watchdog(file_dict.get_attr(), path, endpoint + metric + tag)
         taskid = (endpoint + metric + tag).replace(',', '')
         if len(str.strip(file_dict.get_interval())) != 0:
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     for http_conf in http_list:
         http_dict = config_read.ConfigInit(http_conf)
         metric = http_dict.get_http_metric()
-        tag = http_dict.get_http_tag()
+        tag = http_dict.get_tags('http')
         taskid = (endpoint + metric + tag).replace(',', '')
         tasksc.add_job(func=api_agent, kwargs={'http_dict': http_dict, 'server_dict': server_dict},
                        id=taskid, trigger='interval', seconds=int(http_dict.get_interval()), replace_existing=True)

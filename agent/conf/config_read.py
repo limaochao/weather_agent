@@ -22,16 +22,30 @@ class ConfigInit:
                     dict_value_is_empty(self.config_dict, 'response_code')]
         return url_info
 
-    def get_http_tag(self):
-        """ 返回http推送报警报告所需部分信息 """
-        return self.tags_common() + ',source=' + dict_value_is_empty(self.config_dict, 'url') + ',type=http'
+    def get_tags(self, _type, value=None):
+        if value is None:
+            return self.tags_common(_type)
+        else:
+            return self.tags_common(_type) + ',value=' + str(value)
 
-    def get_file_tag(self):
-        """ 返回file推送报警报告所需部分信息 """
-        return self.tags_common() + ',source=' + dict_value_is_empty(self.config_dict, 'dir_path') \
-               + self.config_dict.get('file_name') + ',type=file'
+    # def get_tags(self, _type):
+    #     if _type == 'file':
+    #         return self.get_file_tag()
+    #     elif _type == 'http':
+    #         return self.get_http_tag()
+    #     else:
+    #         pass
+    #
+    # def get_http_tag(self):
+    #     """ 返回http推送报警报告所需部分信息 """
+    #     return self.tags_common() + ',source=' + dict_value_is_empty(self.config_dict, 'url') + ',type=http'
+    #
+    # def get_file_tag(self):
+    #     """ 返回file推送报警报告所需部分信息 """
+    #     return self.tags_common() + ',source=' + dict_value_is_empty(self.config_dict, 'dir_path') \
+    #            + self.config_dict.get('file_name') + ',type=file'
 
-    def tags_common(self):
+    def tags_common(self, _type):
         """返回tag公共部分信息"""
         return 'branch=' + dict_value_is_empty(self.config_dict, 'branch') \
                + ',dataType=' + dict_value_is_empty(self.config_dict, 'dataType') \
@@ -44,7 +58,8 @@ class ConfigInit:
                + ',pid=' + self.__get_pid() \
                + ',project=' + dict_value_is_empty(self.config_dict, 'project') \
                + ',subDataType=' + self.config_dict.get('subDataType') \
-               + ',action=' + str_length_valid(dict_value_is_empty(self.config_dict, 'action'), 10, 'action')
+               + ',action=' + str_length_valid(dict_value_is_empty(self.config_dict, 'action'), 10, 'action') \
+               + ',type=' + _type
 
     def __get_pid(self):
         if dict_value_is_empty(self.config_dict, 'is_begin') == 'True':

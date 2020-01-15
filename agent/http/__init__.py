@@ -18,7 +18,7 @@ def api_agent(http_dict, server_dict):
 
     metric = http_dict.get_http_metric()
     step = http_dict.get_interval()
-    tags = http_dict.get_http_tag()
+    tags = http_dict.get_tags('http')
 
     # 读取SERVER部分字典
     endpoint = server_dict.get_endpoint()
@@ -34,7 +34,7 @@ def api_agent(http_dict, server_dict):
 
     # 读取URL访问结果，并尝试推送
     value = result[0]
-    sender = agent_push.AgentPush(endpoint, metric, step, value, "GAUGE", tags)
+    sender = agent_push.AgentPush(endpoint, metric, step, value, "GAUGE", http_dict.get_tags('http'))
     # 数据有更新，尝试连续推送5次，其他情况只推送一次
     if value == constant.const.UPDATE_CODE:
         for _ in range(constant.const.UPDATE_PUSH_TIME):
