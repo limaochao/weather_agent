@@ -58,8 +58,7 @@ def task(file_dict, server_dict):
         code = integration_result(result)
         if code == const.UPDATE_CODE and is_push_update_continue == 'True':
             gol.set_value("update_times" + service_name, const.UPDATE_PUSH_TIME)
-    agent_push.AgentPush(endpoint, metric, step, code, "GAUGE", file_dict.get_tags('file')).push(
-        push_url)
+    agent_push.AgentPush(endpoint, metric, step, code, "GAUGE", tag).push(push_url)
 
 
 def init_watchdog(attr_list, path, service_name):
