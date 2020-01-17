@@ -1,5 +1,5 @@
 # coding:utf-8
-from agent.common.exceptions import dict_value_is_empty, str_length_valid, mixture_length_valid
+from agent.common.exceptions import dict_value_is_empty, str_length_valid
 
 
 class ConfigInit:
@@ -56,7 +56,7 @@ class ConfigInit:
                + ',is_finish=' + dict_value_is_empty(self.config_dict, 'is_finish') \
                + ',leader=' + dict_value_is_empty(self.config_dict, 'leader') \
                + ',pid=' + self.__get_pid() \
-               + ',project=' + dict_value_is_empty(self.config_dict, 'project') \
+               + ',project=' + str_length_valid(dict_value_is_empty(self.config_dict, 'project'), 10, 'project') \
                + ',app_name=' + dict_value_is_empty(self.config_dict, 'app_name') \
                + ',subDataType=' + self.config_dict.get('subDataType') \
                + ',action=' + str_length_valid(dict_value_is_empty(self.config_dict, 'action'), 10, 'action') \

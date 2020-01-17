@@ -66,8 +66,9 @@ def str_length_valid(value, max_len, key=None):
         return value
 
 
-def mixture_length_valid(value, strLength, key=None):
-    pattern = "^[\u4e00-\u9fa5]{1," + str(strLength) + "}$|^[\dA-Za-z]{1," + str(strLength * 2) + "}$"
-    var = re.match(pattern, str(value))
-    if var is None:
-        raise MixtureStrError(strLength, key)
+# def mixture_length_valid(value, strLength, key=None):
+#     pattern = "^[\u4e00-\u9fa5]{1," + str(strLength) + "}$|^[\dA-Za-z]{1," + str(strLength * 2) + "}$"
+#     var = re.match(pattern, str(value))
+#     if var is None:
+#         print(1)
+#         raise MixtureStrError(strLength, key)
