@@ -36,14 +36,15 @@ if __name__ == '__main__':
             pass
         else:
             pass
-    for http_conf in http_list:
-        http_dict = config_read.ConfigInit(http_conf)
-        metric = http_dict.get_http_metric()
-        tag = http_dict.get_http_tag()
-        taskid = (endpoint + metric + tag).replace(',', '')
-        tasksc.add_job(func=api_agent, kwargs={'http_dict': http_dict, 'server_dict': server_dict},
-                       id=taskid, trigger='interval', seconds=int(http_dict.get_interval()), replace_existing=True)
-    # Daemonize(tasksc.start).start()
+    if http_list:
+        for http_conf in http_list:
+            http_dict = config_read.ConfigInit(http_conf)
+            metric = http_dict.get_http_metric()
+            tag = http_dict.get_http_tag()
+            taskid = (endpoint + metric + tag).replace(',', '')
+            tasksc.add_job(func=api_agent, kwargs={'http_dict': http_dict, 'server_dict': server_dict},
+                           id=taskid, trigger='interval', seconds=int(http_dict.get_interval()), replace_existing=True)
+        # Daemonize(tasksc.start).start()
 
     print(tasksc.get_jobs())
     tasksc.start()
