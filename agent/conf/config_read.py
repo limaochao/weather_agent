@@ -60,6 +60,7 @@ class ConfigInit:
                + ',app_name=' + dict_value_is_empty(self.config_dict, 'app_name') \
                + ',subDataType=' + self.config_dict.get('subDataType') \
                + ',action=' + str_length_valid(dict_value_is_empty(self.config_dict, 'action'), 10, 'action') \
+               + ',flow=' + dict_value_is_empty(self.config_dict,'flow') \
                + ',type=' + _type
 
     def __get_pid(self):
