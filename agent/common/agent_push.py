@@ -11,6 +11,7 @@ import time
 import datetime
 
 import requests
+from requests import RequestException
 
 
 class AgentPush:
@@ -67,7 +68,18 @@ class AgentPush:
         ]
 
     def push(self, push_url):
-        r1 = requests.post(push_url, data=json.dumps(self.payload))
-        print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " : push value '" + str(self.value)
-              + "' to URL : " + push_url + " : " + r1.text)
-        print(json.dumps(self.payload))
+        try:
+            r1 = requests.post(push_url, data=json.dumps(self.payload))
+            print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " : push value '" + str(self.value)
+                  + "' to URL : " + push_url + " : " + r1.text)
+            print(json.dumps(self.payload))
+            if r1.text.strip().lower().__eq__("success"):
+                return True
+            else:
+                return False
+        except RequestException:
+            print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " : push value '" + str(self.value)
+                  + "' to URL : " + push_url + " : failed")
+            return False
+
+

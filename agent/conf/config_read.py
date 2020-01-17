@@ -57,6 +57,7 @@ class ConfigInit:
                + ',leader=' + dict_value_is_empty(self.config_dict, 'leader') \
                + ',pid=' + self.__get_pid() \
                + ',project=' + str_length_valid(dict_value_is_empty(self.config_dict, 'project'), 20, 'project') \
+               + ',app_name=' + dict_value_is_empty(self.config_dict, 'app_name') \
                + ',subDataType=' + self.config_dict.get('subDataType') \
                + ',action=' + str_length_valid(dict_value_is_empty(self.config_dict, 'action'), 10, 'action') \
                + ',type=' + _type

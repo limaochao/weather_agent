@@ -25,7 +25,7 @@ if __name__ == '__main__':
         file_dict = config_read.ConfigInit(file_conf)
         path = file_dict.get_file_path()
         metric = file_dict.get_file_metric()
-        tag = file_dict.get_tags('file')
+        tag = file_dict.get_file_tag()
         init_watchdog(file_dict.get_attr(), path, endpoint + metric + tag)
         taskid = (endpoint + metric + tag).replace(',', '')
         if len(str.strip(file_dict.get_interval())) != 0:
@@ -36,15 +36,17 @@ if __name__ == '__main__':
             pass
         else:
             pass
-    if http_list:
-        for http_conf in http_list:
-            http_dict = config_read.ConfigInit(http_conf)
+
+    if http_list is not None:
+        for http_zone in http_list:
+            http_dict = config_read.ConfigInit(http_zone)
             metric = http_dict.get_http_metric()
-            tag = http_dict.get_tags('http')
+            tag = http_dict.get_http_tag()
             taskid = (endpoint + metric + tag).replace(',', '')
             tasksc.add_job(func=api_agent, kwargs={'http_dict': http_dict, 'server_dict': server_dict},
                            id=taskid, trigger='interval', seconds=int(http_dict.get_interval()), replace_existing=True)
-        # Daemonize(tasksc.start).start()
+
+    # Daemonize(tasksc.start).start()
 
     print(tasksc.get_jobs())
     tasksc.start()
