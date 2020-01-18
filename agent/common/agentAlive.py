@@ -12,7 +12,8 @@ import json
 import time
 
 def pushAgentAlive(endpoint,url):
-    data = {
+    payload  =[
+        {
         "metric": "agent.alive",
         "endpoint": str(endpoint),
         "timestamp": int(time.time()),
@@ -21,4 +22,8 @@ def pushAgentAlive(endpoint,url):
         "counterType": "GAUGE",
         "tags":''
     }
-    requests.post(url,data = json.dumps(data))
+        ]
+    requests.post(url,data = json.dumps(payload))
+
+
+# pushAgentAlive(endpoint='220.243.129.4',url='http://220.243.129.168:1988/v1/push')
