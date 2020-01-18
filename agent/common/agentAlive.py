@@ -12,7 +12,7 @@ import json
 import time
 
 def pushAgentAlive(endpoint,url):
-    payload  =[
+    payload = [
         {
         "metric": "agent.alive",
         "endpoint": str(endpoint),
