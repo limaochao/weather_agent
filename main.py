@@ -7,6 +7,7 @@
 @Desc   : The file is ...
 @Version: v1.0
 """
+from agent.common.agentAlive import pushAgentAlive
 from agent.conf import config_read
 from agent.conf.configs import config
 from agent.http import api_agent
@@ -21,6 +22,8 @@ if __name__ == '__main__':
     file_list = config.get('file')
     http_list = config.get('http')
     endpoint = server_dict.get_endpoint()
+    pushUrl = server_dict.get_push_url()
+    tasksc.add_job(func=pushAgentAlive,args=[endpoint,str(pushUrl)],id = 'agentAlive',trigger='interval',seconds = 30,replace_existing=True)
     for file_conf in file_list:
         file_dict = config_read.ConfigInit(file_conf)
         path = file_dict.get_file_path()
@@ -45,6 +48,7 @@ if __name__ == '__main__':
             tasksc.add_job(func=api_agent, kwargs={'http_dict': http_dict, 'server_dict': server_dict},
                            id=taskid, trigger='interval', seconds=int(http_dict.get_interval()), replace_existing=True)
         # Daemonize(tasksc.start).start()
+
 
     print(tasksc.get_jobs())
     tasksc.start()
