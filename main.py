@@ -14,6 +14,7 @@ from agent.http import api_agent
 from agent.scheduler.taskScheduler import AgentScheduler
 from agent.common import gol
 from agent.file import task, init_watchdog
+import os
 
 if __name__ == '__main__':
     gol.init()
@@ -34,7 +35,6 @@ if __name__ == '__main__':
         if len(str.strip(file_dict.get_interval())) != 0:
             tasksc.add_job(func=task, kwargs={'file_dict': file_dict, 'server_dict': server_dict},
                            id=taskid, trigger='interval', seconds=int(file_dict.get_interval()), replace_existing=True)
-
         elif len(str.strip(file_dict.get_cron())) != 0:
             pass
         else:
@@ -48,7 +48,7 @@ if __name__ == '__main__':
             tasksc.add_job(func=api_agent, kwargs={'http_dict': http_dict, 'server_dict': server_dict},
                            id=taskid, trigger='interval', seconds=int(http_dict.get_interval()), replace_existing=True)
         # Daemonize(tasksc.start).start()
+    os.system('echo {} > agent.pid'.format(os.getpid()))
 
-
-    print(tasksc.get_jobs())
+    # print(tasksc.get_jobs())
     tasksc.start()
