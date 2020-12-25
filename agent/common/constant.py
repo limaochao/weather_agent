@@ -1,12 +1,5 @@
+#!/usr/bin/env python3
 # coding: utf-8
-
-"""
-@Time : 2019-12-25 9:21 
-@Author : cuihaipeng
-@File : constant.py
-@pyVersion: 3.6.8
-@desc : 常量类
-"""
 
 
 class Const(object):

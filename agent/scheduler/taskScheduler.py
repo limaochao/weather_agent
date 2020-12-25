@@ -54,9 +54,10 @@ class AgentScheduler(BlockingScheduler):
     """
 
     def __init__(self):
-        super(AgentScheduler, self).__init__(jobstores={'default': MemoryJobStore(), },
-                                             job_defaults={'coalesce': False, 'max_instances': 10},
-                                             executors={'default': ThreadPoolExecutor(10),
-                                                        'processpool': ProcessPoolExecutor(1),
-                                                        }
-                                             )
+        super(AgentScheduler, self).__init__(
+            jobstores = { 'default': MemoryJobStore(), },
+            job_defaults = {'coalesce': False, 'max_instances': 10},
+            executors = {
+                'default': ThreadPoolExecutor(10),
+                'processpool': ProcessPoolExecutor(1),
+            })

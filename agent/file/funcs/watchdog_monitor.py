@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # coding = utf-8
 
 """
@@ -9,7 +10,6 @@
 """
 import time
 from watchdog.events import FileSystemEventHandler
-
 from agent.common import gol
 
 

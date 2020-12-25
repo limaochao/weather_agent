@@ -28,22 +28,6 @@ class ConfigInit:
         else:
             return self.tags_common(_type) + ',value=' + str(value)
 
-    # def get_tags(self, _type):
-    #     if _type == 'file':
-    #         return self.get_file_tag()
-    #     elif _type == 'http':
-    #         return self.get_http_tag()
-    #     else:
-    #         pass
-    #
-    # def get_http_tag(self):
-    #     """ 返回http推送报警报告所需部分信息 """
-    #     return self.tags_common() + ',source=' + dict_value_is_empty(self.config_dict, 'url') + ',type=http'
-    #
-    # def get_file_tag(self):
-    #     """ 返回file推送报警报告所需部分信息 """
-    #     return self.tags_common() + ',source=' + dict_value_is_empty(self.config_dict, 'dir_path') \
-    #            + self.config_dict.get('file_name') + ',type=file'
 
     def tags_common(self, _type):
         """返回tag公共部分信息"""

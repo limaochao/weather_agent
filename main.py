@@ -1,12 +1,6 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@Author : hejian
-@File   : main.py
-@Project: weather_agent
-@Time   : 2020-01-03 11:08:08
-@Desc   : The file is ...
-@Version: v1.0
-"""
+
 from agent.common.agentAlive import pushAgentAlive
 from agent.conf import config_read
 from agent.conf.configs import config
