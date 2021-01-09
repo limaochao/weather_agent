@@ -1,12 +1,10 @@
-# coding = utf-8
-
-"""
-@author: cuihaipeng
-@file: gol.py
-@time: 2019/12/19 10:55
-@pyVersion: 3.6.8
-@desc: 跨所有模块的全局变量字典方法
-"""
+#!/usr/bin/env python3
+'''
+Description: 
+Author: limaochao
+Date: 2020-12-27 20:08:19
+LastEditTime: 2020-12-27 20:08:30
+'''
 
 
 # 初始化

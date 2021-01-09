@@ -1,18 +1,16 @@
+#!/usr/bin/env python3
 # coding: utf-8
-
-"""
-@Time : 2020-01-13 17:38 
-@Author : cuihaipeng
-@File : __init__.py.py
-@pyVersion: 3.6.8
-@desc :
-"""
-import re
+'''
+Description: 
+Author: limaochao
+Date: 2020-12-26 20:58:47
+LastEditTime: 2020-12-27 14:47:44
+'''
 
 
 class NullValueError(Exception):
-    """自定义异常类，继承Exception
-        值不能为空
+    """
+    自定义异常类，继承Exception值不能为空
     """
 
     def __init__(self, key=''):
@@ -24,9 +22,9 @@ class NullValueError(Exception):
 
 
 class TooLongError(Exception):
-    """自定义异常类，继承Exception
-            值不能为空
-        """
+    """
+    自定义异常类，继承Exception值不能为空
+    """
 
     def __init__(self, length, max_len, key=None):
         self.key = key
@@ -49,7 +47,8 @@ class MixtureStrError(Exception):
 
     def __str__(self):
         """设置抛出异常的描述信息"""
-        return f'请检查你输入的{self.key}是否正确，请输入{self.max_str_len}位汉字或{self.max_str_len * 2}位字母'
+        return f'请检查你输入的{self.key}是否正确，\
+            请输入{self.max_str_len}位汉字或{self.max_str_len * 2}位字母'
 
 
 def dict_value_is_empty(_dict, key):
@@ -66,9 +65,3 @@ def str_length_valid(value, max_len, key=None):
         return value
 
 
-# def mixture_length_valid(value, strLength, key=None):
-#     pattern = "^[\u4e00-\u9fa5]{1," + str(strLength) + "}$|^[\dA-Za-z]{1," + str(strLength * 2) + "}$"
-#     var = re.match(pattern, str(value))
-#     if var is None:
-#         print(1)
-#         raise MixtureStrError(strLength, key)

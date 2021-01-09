@@ -1,9 +1,8 @@
 # coding: utf-8
+'''
+Description: 
+Author: limaochao
+Date: 2020-12-27 20:08:56
+LastEditTime: 2020-12-27 20:08:56
+'''
 
-"""
-@Time : 2020-01-10 17:11 
-@Author : cuihaipeng
-@File : __init__.py.py
-@pyVersion: 3.6.8
-@desc :
-"""

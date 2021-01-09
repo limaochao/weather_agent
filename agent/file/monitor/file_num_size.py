@@ -1,12 +1,11 @@
 # coding: utf-8
+'''
+Description: 
+Author: limaochao
+Date: 2020-12-27 20:09:30
+LastEditTime: 2020-12-27 20:09:31
+'''
 
-"""
-@Time : 2019-12-27 10:44 
-@Author : cuihaipeng
-@File : file_num_size.py
-@pyVersion: 3.6.8
-@desc : 大于size的文件数量
-"""
 
 import os
 import time

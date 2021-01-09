@@ -1,16 +1,13 @@
 # coding: utf-8
+'''
+Description: 
+Author: limaochao
+Date: 2020-12-27 20:10:32
+LastEditTime: 2020-12-27 20:10:33
+'''
 
-"""
-@Time : 2019-12-30 17:32 
-@Author : cuihaipeng
-@File : file_attr_enum.py
-@pyVersion: 3.6.8
-@desc :
-"""
 
 from enum import Enum, unique
-
-
 @unique
 class FileAttr(Enum):
     """

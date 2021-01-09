@@ -1,12 +1,10 @@
 # coding: utf-8
-
-"""
-@Time : 2019-12-27 11:43 
-@Author : cuihaipeng
-@File : counter_incr.py
-@pyVersion: 3.6.8
-@desc :
-"""
+'''
+Description: 
+Author: limaochao
+Date: 2020-12-27 20:10:08
+LastEditTime: 2020-12-27 20:10:09
+'''
 
 
 def CounterIncr():

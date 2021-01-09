@@ -1,12 +1,11 @@
 # coding: utf-8
+'''
+Description: 
+Author: limaochao
+Date: 2020-12-27 20:09:15
+LastEditTime: 2021-01-09 10:56:21
+'''
 
-"""
-@Time : 2019-12-26 17:51 
-@Author : cuihaipeng
-@File : is_created.py
-@pyVersion: 3.6.8
-@desc : 是否新建
-"""
 import time
 
 from agent.common import gol
@@ -38,11 +37,17 @@ def is_created(service_name):
         gol.set_value("create" + service_name, now_time)
         last_modify = now_time
     if before_last_modify is None:
-        gol.set_value("create_before" + service_name, gol.get_value("create" + service_name))
+        gol.set_value(
+            "create_before" + service_name,
+            gol.get_value("create" + service_name)
+        )
         before_last_modify = now_time
     if last_modify > before_last_modify:
         code = const.UPDATE_CODE
-        gol.set_value("create_before" + service_name, gol.get_value("create" + service_name))
+        gol.set_value(
+            "create_before" + service_name,
+            gol.get_value("create" + service_name)
+        )
     else:
         code = const.SUCCESS_CODE
     return code

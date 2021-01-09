@@ -1,12 +1,11 @@
-# coding: utf-8
+#!/usr/bin/env python3
+'''
+Description: 
+Author: limaochao
+Date: 2020-12-26 12:29:13
+LastEditTime: 2020-12-27 15:44:12
+'''
 
-"""
-@Time : 2019-12-25 10:58 
-@Author : cuihaipeng
-@File : configs.py
-@pyVersion: 3.6.8
-@desc : json配置文件初始化
-"""
 
 import json
 import os
@@ -29,7 +28,9 @@ class Config:
                 _config = json.load(config_file)
                 return _config
         else:
-            print('Config file not exist, please make sure the path is correct!')
+            print(
+                'Config file not exist, please make sure the path is correct!'
+            )
 
 
 config = Config().load_sets()

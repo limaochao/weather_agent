@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # coding = utf-8
+'''
+Description: 
+Author: limaochao
+Date: 2020-12-27 20:09:48
+LastEditTime: 2020-12-27 20:09:56
+'''
 
-"""
-@author: cuihaipeng
-@file: watchdog_monitor.py
-@time: 2019/12/19 16:55
-@pyVersion: 3.6.8
-@desc: watchdog监控文件变化
-"""
+
 import time
 from watchdog.events import FileSystemEventHandler
 from agent.common import gol

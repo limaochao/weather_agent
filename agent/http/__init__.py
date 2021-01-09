@@ -1,24 +1,8 @@
+#!/usr/bin/env python3
 # coding: utf-8
-'''
-@author: lb
-@file: api_agent.py
-@time: 1/14/2020 2:03 PM
-@desc:
-@Version: v1.0
-'''
 
-# from agent.common import gol, agent_push, constant
-# from agent.conf.configs import config
-# from agent.conf.config_read import ServerConf
-# from agent.conf.config_read import ConfigInit
-# from agent.http import url_access
 
-import os
-import sys
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(BASE_DIR)
-from agent.common import gol, agent_push, constant
+from agent.common import gol, agent, constant
 from agent.conf.configs import config
 from agent.conf.config_read import ServerConf
 from agent.conf.config_read import ConfigInit
@@ -46,7 +30,7 @@ def api_agent(http_dict, server_dict):
 
     # 读取URL访问结果，并尝试推送
     value = result[0]
-    sender = agent_push.AgentPush(endpoint, metric, step, value, "GAUGE", tags)
+    sender = agent.Agent(endpoint, metric, step, value, "GAUGE", tags)
     # 数据有更新，尝试连续推送5次，其他情况只推送一次
     success_count = 0
     range_times = 1
@@ -59,8 +43,6 @@ def api_agent(http_dict, server_dict):
         raise RuntimeError("Failed to send report to Falcon!")
 
 
-
-
 def main():
     gol.init()
     http_list = config.get('http')
@@ -70,7 +52,6 @@ def main():
         for http_zone in http_list:
             http_dict = ConfigInit(http_zone)
             api_agent(http_dict, server_dict)
-
 
 
 if __name__ == "__main__":
