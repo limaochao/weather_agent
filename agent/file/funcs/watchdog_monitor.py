@@ -4,13 +4,13 @@
 Description: 
 Author: limaochao
 Date: 2020-12-27 20:09:48
-LastEditTime: 2020-12-27 20:09:56
+LastEditTime: 2021-01-10 11:55:36
 '''
 
 
 import time
 from watchdog.events import FileSystemEventHandler
-from agent.common import gol
+from agent.common import globals
 
 
 class OnCreated(FileSystemEventHandler):
@@ -23,8 +23,9 @@ class OnCreated(FileSystemEventHandler):
         self.service = service
 
     def on_created(self, event):
-        super(OnCreated, self).on_created(event)
-        gol.set_value(self.service, time.time())
+        # super(OnCreated, self).on_created(event)
+        print(event.src_path)
+        globals.set_value(self.service, time.time())
         print(time.time())
 
 
@@ -36,7 +37,7 @@ class OnModified(FileSystemEventHandler):
 
     def on_modified(self, event):
         super(OnModified, self).on_modified(event)
-        gol.set_value(self.service, time.time())
+        globals.set_value(self.service, time.time())
 
 
 class OnDeleted(FileSystemEventHandler):
@@ -47,7 +48,7 @@ class OnDeleted(FileSystemEventHandler):
 
     def on_deleted(self, event):
         super(OnDeleted, self).on_deleted(event)
-        gol.set_value(self.service, time.time())
+        globals.set_value(self.service, time.time())
 
 
 class OnMoved(FileSystemEventHandler):
@@ -58,4 +59,4 @@ class OnMoved(FileSystemEventHandler):
 
     def on_moved(self, event):
         super(OnMoved, self).on_moved(event)
-        gol.set_value(self.service, time.time())
+        globals.set_value(self.service, time.time())

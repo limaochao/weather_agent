@@ -3,12 +3,12 @@
 Description: 
 Author: limaochao
 Date: 2020-12-27 14:42:25
-LastEditTime: 2021-01-09 10:59:27
+LastEditTime: 2021-01-09 16:48:25
 '''
 
 
 import threading
-from agent.common import gol, agent
+from agent.common import globals, agent
 from agent.common.constant import const
 from agent.file.monitor.file_num_size import file_num_large_size
 from agent.file.monitor.is_created import is_created, on_created
@@ -24,20 +24,20 @@ def task(file_dict, server_dict):
     step = file_dict.get_interval()
     tag = file_dict.get_tags('file')
     service_name = endpoint + metric + tag
-    update_time_info = gol._global_dictvalue("update_times" + service_name)
-    is_push_update_continue = gol.file_dict.get_is_push_update_continue()
+    update_time_info = globals.get_value("update_times" + service_name)
+    is_push_update_continue = file_dict.get_is_push_update_continue()
     if update_time_info is not None and update_time_info != 0:
-        gol._global_dict.code = const.UPDATE_CODE
-        gol.set_value("update_times" + service_name, update_time_info - 1)
+        code = const.UPDATE_CODE
+        globals.set_value("update_times" + service_name, update_time_info - 1)
     else:
-        """_global_dict辑判断"""
+        """业务逻辑判断"""
         file_attr_list = file_dict.get_attr()
-        result = gol._global_dict
+        result = []
         for file_attr in file_attr_list:
             key = file_attr.get('key')
             if key == FileAttr.IS_EXIST.value:
                 pass
-            if key == gol._global_dict.fileAttr.IS_CREATED.value:
+            if key == FileAttr.IS_CREATED.value:
                 result.append(is_created(service_name))
             if key == FileAttr.IS_DELETED.value:
                 pass
@@ -56,7 +56,7 @@ def task(file_dict, server_dict):
                 pass
         code = integration_result(result)
         if code == const.UPDATE_CODE and is_push_update_continue == 'True':
-            gol.set_value(
+            globals.set_value(
                 "update_times" + service_name, const.UPDATE_PUSH_TIME)
     # agent.Agent(
     #     endpoint, metric, step, code, "GAUGE", tag).push(push_url)

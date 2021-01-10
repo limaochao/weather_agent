@@ -3,36 +3,41 @@
 Description: 
 Author: limaochao
 Date: 2020-12-26 18:04:52
-LastEditTime: 2020-12-27 15:07:19
+LastEditTime: 2021-01-10 14:12:30
 '''
+
 
 from agent.common.agentAlive import pushAgentAlive
 from agent.conf.configs import config
 from agent.conf import config_read
 from agent.http import api_agent
 from agent.scheduler.taskScheduler import AgentScheduler
-from agent.common import gol
+from agent.common import globals
 from agent.file import task, init_watchdog
 import os
 
 if __name__ == '__main__':
-    gol.init()
+    globals.init()
     tasksc = AgentScheduler()
     server_dict = config_read.ServerConf(config['server'])
     file_list = config['file']
     http_list = config.get('http', {})
     endpoint = server_dict.get_endpoint()
     pushUrl = server_dict.get_push_url()
-    tasksc.add_job(
-        func=pushAgentAlive, args=[endpoint, str(pushUrl)],
-        id='agentAlive', trigger='interval', seconds=30, replace_existing=True
-    )
+    # tasksc.add_job(
+    #     func=pushAgentAlive, args=[endpoint, str(pushUrl)],
+    #     id='agentAlive', trigger='interval',\
+    #           seconds=30, replace_existing=True
+    # )
     for file_conf in file_list:
         file_dict = config_read.ConfigInit(file_conf)
         path = file_dict.get_file_path()
         metric = file_dict.get_file_metric()
         tag = file_dict.get_tags('file')
-        init_watchdog(file_dict.get_attr(), path, endpoint + metric + tag)
+        init_watchdog(
+            file_dict.get_attr(),
+            path, endpoint + metric + tag
+        )
         taskid = (endpoint + metric + tag).replace(',', '')
         interval = file_dict.get_interval()
         if interval != 0:

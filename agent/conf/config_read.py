@@ -3,9 +3,10 @@
 Description: 
 Author: limaochao
 Date: 2020-12-27 14:52:43
-LastEditTime: 2021-01-09 10:30:28
+LastEditTime: 2021-01-10 11:20:27
 '''
 
+import os
 from agent.common.exceptions import dict_value_is_empty, str_length_valid
 
 
@@ -39,33 +40,63 @@ class ConfigInit:
 
     def tags_common(self, _type):
         """返回tag公共部分信息"""
-        return 'branch=' + dict_value_is_empty(self.config_dict, 'branch') \
-               + ',dataType=' + dict_value_is_empty(
+        # return 'branch=' + dict_value_is_empty(self.config_dict, 'branch') \
+        #        + ',dataType=' + dict_value_is_empty(
+        #            self.config_dict, 'dataType') \
+        #        + ',department=' + dict_value_is_empty(
+        #            self.config_dict, 'department') \
+        #        + ',deputy=' + self.config_dict.get('deputy') \
+        #        + ',id=' + dict_value_is_empty(
+        #            self.config_dict, 'id') \
+        #        + ',is_begin=' + dict_value_is_empty(
+        #            self.config_dict, 'is_begin') \
+        #        + ',is_finish=' + dict_value_is_empty(
+        #            self.config_dict, 'is_finish') \
+        #        + ',leader=' + dict_value_is_empty(
+        #            self.config_dict, 'leader') \
+        #        + ',pid=' + self.__get_pid() \
+        #        + ',project=' + str_length_valid(
+        #            dict_value_is_empty(
+        #                self.config_dict, 'project'), 20, 'project') \
+        #        + ',app_name=' + dict_value_is_empty(
+        #            self.config_dict, 'app_name') \
+        #        + ',subDataType=' + self.config_dict.get('subDataType') \
+        #        + ',action=' + str_length_valid(
+        #            dict_value_is_empty(
+        #                self.config_dict, 'action'), 10, 'action') \
+        #        + ',flow=' + dict_value_is_empty(
+        #            self.config_dict, 'flow') \
+        #        + ',type=' + _type
+        
+        return dict_value_is_empty(self.config_dict, 'branch') \
+               + '_' + dict_value_is_empty(
                    self.config_dict, 'dataType') \
-               + ',department=' + dict_value_is_empty(
+               + '_' + dict_value_is_empty(
                    self.config_dict, 'department') \
-               + ',deputy=' + self.config_dict.get('deputy') \
-               + ',id=' + dict_value_is_empty(
+               + '_' + self.config_dict.get('deputy') \
+               + '_' + dict_value_is_empty(
                    self.config_dict, 'id') \
-               + ',is_begin=' + dict_value_is_empty(
+               + '_' + dict_value_is_empty(
                    self.config_dict, 'is_begin') \
-               + ',is_finish=' + dict_value_is_empty(
+               + '_' + dict_value_is_empty(
                    self.config_dict, 'is_finish') \
-               + ',leader=' + dict_value_is_empty(
+               + '_' + dict_value_is_empty(
                    self.config_dict, 'leader') \
-               + ',pid=' + self.__get_pid() \
-               + ',project=' + str_length_valid(
+               + '_' + self.__get_pid() \
+               + '_' + str_length_valid(
                    dict_value_is_empty(
-                       self.config_dict, 'project'), 20, 'project') \
-               + ',app_name=' + dict_value_is_empty(
+                       self.config_dict, 
+                       'project'
+                    ), 20, 'project') \
+               + '_' + dict_value_is_empty(
                    self.config_dict, 'app_name') \
-               + ',subDataType=' + self.config_dict.get('subDataType') \
-               + ',action=' + str_length_valid(
+               + '_' + self.config_dict.get('subDataType') \
+               + '_' + str_length_valid(
                    dict_value_is_empty(
-                       self.config_dict, 'action'), 10, 'action') \
-               + ',flow=' + dict_value_is_empty(
+                       self.config_dict, 'action'), 20, 'action') \
+               + '_' + dict_value_is_empty(
                    self.config_dict, 'flow') \
-               + ',type=' + _type
+               + '_' + _type
 
     def __get_pid(self):
         if dict_value_is_empty(self.config_dict, 'is_begin') == 'True':
@@ -97,9 +128,17 @@ class ConfigInit:
         return dict_value_is_empty(self.config_dict, 'attr')
 
     def get_file_path(self):
-        return dict_value_is_empty(
-            self.config_dict, 'dir_path'
-        ) + self.config_dict.get('file_name')
+        '''
+        这里以后扩展try捕获错误
+        '''
+        
+        filename = self.config_dict.get('file_name')
+        if not filename:
+            return dict_value_is_empty(
+                self.config_dict, 'dir_path')
+        else:
+            return os.path.join(dict_value_is_empty(
+                self.config_dict, 'dir_path'), filename)
 
     def get_interval(self):
         """ 返回定时调度所需部分信息 """

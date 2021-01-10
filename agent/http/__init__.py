@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
+'''
+Description: 
+Author: limaochao
+Date: 2021-01-09 15:05:07
+LastEditTime: 2021-01-09 15:05:07
+'''
 # coding: utf-8
 
 
-from agent.common import gol, agent, constant
+from agent.common import globals, agent, constant
 from agent.conf.configs import config
 from agent.conf.config_read import ServerConf
 from agent.conf.config_read import ConfigInit
@@ -44,7 +50,7 @@ def api_agent(http_dict, server_dict):
 
 
 def main():
-    gol.init()
+    globals.init()
     http_list = config.get('http')
     server_zone = config.get('server')
     if http_list is not None and server_zone is not None:
