@@ -3,7 +3,7 @@
 Description: 
 Author: limaochao
 Date: 2020-12-27 14:42:25
-LastEditTime: 2021-01-09 16:48:25
+LastEditTime: 2021-01-10 21:36:10
 '''
 
 
@@ -24,7 +24,8 @@ def task(file_dict, server_dict):
     step = file_dict.get_interval()
     tag = file_dict.get_tags('file')
     service_name = endpoint + metric + tag
-    update_time_info = globals.get_value("update_times" + service_name)
+    update_time_info = globals.get_value(
+        "update_times" + service_name)
     is_push_update_continue = file_dict.get_is_push_update_continue()
     if update_time_info is not None and update_time_info != 0:
         code = const.UPDATE_CODE
@@ -64,13 +65,13 @@ def task(file_dict, server_dict):
     producer.produce()
 
 
-def init_watchdog(attr_list, path, service_name):
+def init_watchdog(attr_list, path, service_name, filename=None):
     """初始化watchdog"""
     for attr in attr_list:
         if attr.get('key') == FileAttr.IS_CREATED.value:
             '''created'''
             threading.Thread(target=on_created, args=(
-                path, service_name), daemon=True).start()
+                path, service_name, filename), daemon=True).start()
         elif attr.get('key') == FileAttr.IS_DELETED.value:
             '''deleted'''
             pass

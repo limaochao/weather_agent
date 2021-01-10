@@ -3,7 +3,7 @@
 Description: kafka客户端
 Author: limaochao
 Date: 2020-12-27 15:43:28
-LastEditTime: 2021-01-10 09:11:28
+LastEditTime: 2021-01-10 14:46:47
 '''
 
 
@@ -126,7 +126,7 @@ class Producer(Agent):
         try:
             result = future.get(timeout=10)
         except kafka_errors as e:
-            sys.stderr.write(e)
+            sys.stderr.write(str(e))
         print(result)
 
     def consume(self, broker=['127.0.0.1:9092']):

@@ -4,7 +4,7 @@
 Description: 
 Author: limaochao
 Date: 2020-12-27 20:09:48
-LastEditTime: 2021-01-10 11:55:36
+LastEditTime: 2021-01-10 21:48:20
 '''
 
 
@@ -19,14 +19,16 @@ class OnCreated(FileSystemEventHandler):
     param: service 具体业务名称，不能重复
     """
 
-    def __init__(self, service=None):
+    def __init__(self, service, filename):
         self.service = service
+        self.filename = filename
 
     def on_created(self, event):
         # super(OnCreated, self).on_created(event)
         print(event.src_path)
-        globals.set_value(self.service, time.time())
-        print(time.time())
+        if event.src_path == self.filename:
+            globals.set_value(self.service, time.time())
+            print(time.time())
 
 
 class OnModified(FileSystemEventHandler):

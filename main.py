@@ -3,7 +3,7 @@
 Description: 
 Author: limaochao
 Date: 2020-12-26 18:04:52
-LastEditTime: 2021-01-10 14:12:30
+LastEditTime: 2021-01-16 16:12:09
 '''
 
 
@@ -31,28 +31,34 @@ if __name__ == '__main__':
     # )
     for file_conf in file_list:
         file_dict = config_read.ConfigInit(file_conf)
-        path = file_dict.get_file_path()
+        filename = file_dict.get_file_path()
+        path = file_dict.get("dir_path")
         metric = file_dict.get_file_metric()
         tag = file_dict.get_tags('file')
+        attr_list = file_dict.get_attr()
         init_watchdog(
-            file_dict.get_attr(),
-            path, endpoint + metric + tag
+            # 文件或目录监控
+            attr_list,
+            path,
+            endpoint + metric + tag,
+            filename=filename
         )
         taskid = (endpoint + metric + tag).replace(',', '')
-        interval = file_dict.get_interval()
-        if interval != 0:
-            tasksc.add_job(
-                func=task,
-                kwargs={
-                    'file_dict': file_dict,
-                    'server_dict': server_dict
-                },
-                id=taskid,
-                trigger='interval',
-                seconds=interval,
-                replace_existing=True
-            )
-        elif len(str.strip(file_dict.get_cron())) != 0:
+        interval = file_dict.get_interval() \
+            if not file_dict.get_interval else 30
+        tasksc.add_job(
+            # 添加任务
+            func=task,
+            kwargs={
+                'file_dict': file_dict,
+                'server_dict': server_dict
+            },
+            id=taskid,
+            trigger='interval',
+            seconds=interval,
+            replace_existing=True
+        )
+        if len(str.strip(file_dict.get_cron())) != 0:
             pass
         else:
             pass

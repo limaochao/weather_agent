@@ -3,7 +3,7 @@
 Description: 
 Author: limaochao
 Date: 2020-12-27 14:52:43
-LastEditTime: 2021-01-10 11:20:27
+LastEditTime: 2021-01-10 14:31:46
 '''
 
 import os
@@ -18,6 +18,11 @@ class ConfigInit:
             self.config_count = len(self.config_dict)
         else:
             raise TypeError("unexpected type of dict")
+
+    def get(self, key, default_value=None):
+        return self.config_dict[key] \
+            if self.config_dict[key] \
+            else default_value
 
     def get_count(self):
         return self.config_count
@@ -67,36 +72,36 @@ class ConfigInit:
         #        + ',flow=' + dict_value_is_empty(
         #            self.config_dict, 'flow') \
         #        + ',type=' + _type
-        
+
         return dict_value_is_empty(self.config_dict, 'branch') \
-               + '_' + dict_value_is_empty(
-                   self.config_dict, 'dataType') \
-               + '_' + dict_value_is_empty(
-                   self.config_dict, 'department') \
-               + '_' + self.config_dict.get('deputy') \
-               + '_' + dict_value_is_empty(
-                   self.config_dict, 'id') \
-               + '_' + dict_value_is_empty(
-                   self.config_dict, 'is_begin') \
-               + '_' + dict_value_is_empty(
-                   self.config_dict, 'is_finish') \
-               + '_' + dict_value_is_empty(
-                   self.config_dict, 'leader') \
-               + '_' + self.__get_pid() \
-               + '_' + str_length_valid(
-                   dict_value_is_empty(
-                       self.config_dict, 
-                       'project'
-                    ), 20, 'project') \
-               + '_' + dict_value_is_empty(
-                   self.config_dict, 'app_name') \
-               + '_' + self.config_dict.get('subDataType') \
-               + '_' + str_length_valid(
-                   dict_value_is_empty(
-                       self.config_dict, 'action'), 20, 'action') \
-               + '_' + dict_value_is_empty(
-                   self.config_dict, 'flow') \
-               + '_' + _type
+            + '_' + dict_value_is_empty(
+            self.config_dict, 'dataType') \
+            + '_' + dict_value_is_empty(
+            self.config_dict, 'department') \
+            + '_' + self.config_dict.get('deputy') \
+            + '_' + dict_value_is_empty(
+            self.config_dict, 'id') \
+            + '_' + dict_value_is_empty(
+            self.config_dict, 'is_begin') \
+            + '_' + dict_value_is_empty(
+            self.config_dict, 'is_finish') \
+            + '_' + dict_value_is_empty(
+            self.config_dict, 'leader') \
+            + '_' + self.__get_pid() \
+            + '_' + str_length_valid(
+            dict_value_is_empty(
+                self.config_dict,
+                'project'
+            ), 20, 'project') \
+            + '_' + dict_value_is_empty(
+            self.config_dict, 'app_name') \
+            + '_' + self.config_dict.get('subDataType') \
+            + '_' + str_length_valid(
+            dict_value_is_empty(
+                self.config_dict, 'action'), 20, 'action') \
+            + '_' + dict_value_is_empty(
+            self.config_dict, 'flow') \
+            + '_' + _type
 
     def __get_pid(self):
         if dict_value_is_empty(self.config_dict, 'is_begin') == 'True':
@@ -131,7 +136,7 @@ class ConfigInit:
         '''
         这里以后扩展try捕获错误
         '''
-        
+
         filename = self.config_dict.get('file_name')
         if not filename:
             return dict_value_is_empty(
